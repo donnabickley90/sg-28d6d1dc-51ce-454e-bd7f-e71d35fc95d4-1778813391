@@ -20,20 +20,61 @@ export interface Room {
   reward: Reward;
 }
 
+export interface Supply {
+  id: string;
+  name: string;
+  quantity: string;
+  checked: boolean;
+  category: string;
+}
+
+export interface DeclutterDay {
+  day: number;
+  title: string;
+  description: string;
+  completed: boolean;
+}
+
+export interface RepairItem {
+  id: string;
+  title: string;
+  description: string;
+  roomId: string;
+  priority: 'low' | 'medium' | 'high' | 'urgent';
+  completed: boolean;
+  createdAt: string;
+}
+
 interface CleaningContextType {
   rooms: Room[];
+  supplies: Supply[];
+  declutterDays: DeclutterDay[];
+  repairs: RepairItem[];
   updateTask: (roomId: string, taskId: string, completed: boolean) => void;
   addTask: (roomId: string, text: string) => void;
   deleteTask: (roomId: string, taskId: string) => void;
   editTask: (roomId: string, taskId: string, newText: string) => void;
+  updateRoomName: (roomId: string, newName: string) => void;
   getProgress: (roomId: string) => number;
   getOverallProgress: () => number;
   getTotalPoints: () => number;
   getEarnedRewards: () => Array<{ roomId: string; roomName: string; reward: Reward }>;
   updateReward: (roomId: string, reward: Reward) => void;
+  addSupply: (name: string, quantity: string, category: string) => void;
+  updateSupply: (id: string, updates: Partial<Supply>) => void;
+  deleteSupply: (id: string) => void;
+  updateDeclutterDay: (day: number, completed: boolean) => void;
+  addRepair: (title: string, description: string, roomId: string, priority: RepairItem['priority']) => void;
+  updateRepair: (id: string, updates: Partial<RepairItem>) => void;
+  deleteRepair: (id: string) => void;
 }
 
 const CleaningContext = createContext<CleaningContextType | undefined>(undefined);
+
+const STORAGE_KEY = 'cleaning-rooms';
+const SUPPLIES_KEY = 'cleaning-supplies';
+const DECLUTTER_KEY = 'declutter-challenge';
+const REPAIRS_KEY = 'home-repairs';
 
 const defaultRooms: Room[] = [
   {
@@ -192,6 +233,26 @@ const defaultRooms: Room[] = [
       { id: "k-9", text: "Wipe down appliances", completed: false },
       { id: "k-10", text: "Mop floor", completed: false },
       { id: "k-11", text: "Clean light fixtures", completed: false },
+    ]
+  },
+  {
+    id: "butlers-pantry",
+    name: "Butler's Pantry",
+    emoji: "🍷",
+    reward: {
+      message: "Butler-worthy organization! Entertaining ready!",
+      points: 140,
+      celebration: "🎩"
+    },
+    tasks: [
+      { id: "bp-1", text: "Organize glassware and stemware", completed: false },
+      { id: "bp-2", text: "Clean and polish serving pieces", completed: false },
+      { id: "bp-3", text: "Wipe down all shelving", completed: false },
+      { id: "bp-4", text: "Organize table linens", completed: false },
+      { id: "bp-5", text: "Clean sink and counters", completed: false },
+      { id: "bp-6", text: "Organize entertaining supplies", completed: false },
+      { id: "bp-7", text: "Check and organize bar tools", completed: false },
+      { id: "bp-8", text: "Vacuum or mop floor", completed: false },
     ]
   },
   {
@@ -447,19 +508,90 @@ const defaultRooms: Room[] = [
   },
 ];
 
+const defaultSupplies: Supply[] = [
+  { id: 's-1', name: 'All-Purpose Cleaner', quantity: '2 bottles', checked: false, category: 'cleaners' },
+  { id: 's-2', name: 'Glass Cleaner', quantity: '1 bottle', checked: false, category: 'cleaners' },
+  { id: 's-3', name: 'Bathroom Cleaner', quantity: '2 bottles', checked: false, category: 'cleaners' },
+  { id: 's-4', name: 'Floor Cleaner', quantity: '1 bottle', checked: false, category: 'cleaners' },
+  { id: 's-5', name: 'Disinfectant Spray', quantity: '2 bottles', checked: false, category: 'cleaners' },
+  { id: 's-6', name: 'Microfiber Cloths', quantity: '10 pack', checked: false, category: 'tools' },
+  { id: 's-7', name: 'Sponges', quantity: '6 pack', checked: false, category: 'tools' },
+  { id: 's-8', name: 'Paper Towels', quantity: '6 rolls', checked: false, category: 'tools' },
+  { id: 's-9', name: 'Trash Bags', quantity: '2 boxes', checked: false, category: 'supplies' },
+  { id: 's-10', name: 'Rubber Gloves', quantity: '2 pairs', checked: false, category: 'tools' },
+  { id: 's-11', name: 'Vacuum Bags/Filters', quantity: 'as needed', checked: false, category: 'supplies' },
+  { id: 's-12', name: 'Mop Head Refills', quantity: '2', checked: false, category: 'supplies' },
+];
+
+const defaultDeclutterDays: DeclutterDay[] = [
+  { day: 1, title: 'Purge Your Purse/Wallet', description: 'Empty, clean, and reorganize', completed: false },
+  { day: 2, title: 'Junk Drawer', description: 'Sort, toss, and organize', completed: false },
+  { day: 3, title: 'Medicine Cabinet', description: 'Check expiry dates, dispose safely', completed: false },
+  { day: 4, title: 'Under Kitchen Sink', description: 'Remove, clean, organize supplies', completed: false },
+  { day: 5, title: 'Spice Rack', description: 'Toss expired, organize by use', completed: false },
+  { day: 6, title: 'Refrigerator', description: 'Toss old food, wipe shelves', completed: false },
+  { day: 7, title: 'Freezer', description: 'Identify mystery items, toss old', completed: false },
+  { day: 8, title: 'Tupperware Cabinet', description: 'Match lids, recycle orphans', completed: false },
+  { day: 9, title: 'Coat Closet', description: 'Donate unused, organize by season', completed: false },
+  { day: 10, title: 'Shoes by Entry', description: 'Donate/toss, organize keepers', completed: false },
+  { day: 11, title: 'Nightstand', description: 'Clear clutter, keep only essentials', completed: false },
+  { day: 12, title: 'Dresser Drawers', description: 'One drawer per day - fold, organize', completed: false },
+  { day: 13, title: 'Closet Floor', description: 'Clear, vacuum, organize', completed: false },
+  { day: 14, title: 'Hangers & Closet Rods', description: 'Uniform hangers, organize by type', completed: false },
+  { day: 15, title: 'Books', description: 'Donate unread/unwanted books', completed: false },
+  { day: 16, title: 'Magazines & Papers', description: 'Recycle old, organize important', completed: false },
+  { day: 17, title: 'DVD/Game Collection', description: 'Donate duplicates, organize', completed: false },
+  { day: 18, title: 'Cables & Chargers', description: 'Label, coil, toss obsolete', completed: false },
+  { day: 19, title: 'Bathroom Cabinets', description: 'Toss empties, organize products', completed: false },
+  { day: 20, title: 'Makeup & Cosmetics', description: 'Check expiry, organize by use', completed: false },
+  { day: 21, title: 'Linen Closet', description: 'Fold, organize, donate excess', completed: false },
+  { day: 22, title: 'Cleaning Supplies', description: 'Consolidate, organize, toss empties', completed: false },
+  { day: 23, title: 'Laundry Room', description: 'Clear surfaces, organize supplies', completed: false },
+  { day: 24, title: 'Kids Toys (or Pet Toys)', description: 'Donate unused, organize keepers', completed: false },
+  { day: 25, title: 'Craft/Hobby Supplies', description: 'Organize by project, donate excess', completed: false },
+  { day: 26, title: 'Office/Desk Drawers', description: 'Organize supplies, toss dried pens', completed: false },
+  { day: 27, title: 'File Cabinet', description: 'Shred old docs, organize important', completed: false },
+  { day: 28, title: 'Digital Clutter', description: 'Delete old files, organize folders', completed: false },
+  { day: 29, title: 'Car Interior', description: 'Remove trash, vacuum, organize', completed: false },
+  { day: 30, title: 'One "Scary" Space', description: 'Tackle your most avoided area', completed: false },
+];
+
 export function CleaningProvider({ children }: { children: ReactNode }) {
   const [rooms, setRooms] = useState<Room[]>([]);
+  const [supplies, setSupplies] = useState<Supply[]>([]);
+  const [declutterDays, setDeclutterDays] = useState<DeclutterDay[]>([]);
+  const [repairs, setRepairs] = useState<RepairItem[]>([]);
 
   useEffect(() => {
-    const stored = localStorage.getItem('kittens-cleaning-chaos');
+    const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
-      try {
-        setRooms(JSON.parse(stored));
-      } catch {
-        setRooms(defaultRooms);
-      }
+      setRooms(JSON.parse(stored));
     } else {
       setRooms(defaultRooms);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultRooms));
+    }
+
+    const storedSupplies = localStorage.getItem(SUPPLIES_KEY);
+    if (storedSupplies) {
+      setSupplies(JSON.parse(storedSupplies));
+    } else {
+      setSupplies(defaultSupplies);
+      localStorage.setItem(SUPPLIES_KEY, JSON.stringify(defaultSupplies));
+    }
+
+    const storedDeclutter = localStorage.getItem(DECLUTTER_KEY);
+    if (storedDeclutter) {
+      setDeclutterDays(JSON.parse(storedDeclutter));
+    } else {
+      setDeclutterDays(defaultDeclutterDays);
+      localStorage.setItem(DECLUTTER_KEY, JSON.stringify(defaultDeclutterDays));
+    }
+
+    const storedRepairs = localStorage.getItem(REPAIRS_KEY);
+    if (storedRepairs) {
+      setRepairs(JSON.parse(storedRepairs));
+    } else {
+      setRepairs([]);
     }
   }, []);
 
@@ -563,8 +695,90 @@ export function CleaningProvider({ children }: { children: ReactNode }) {
       const updatedRooms = prevRooms.map(room =>
         room.id === roomId ? { ...room, reward } : room
       );
-      localStorage.setItem('kittens-cleaning-chaos', JSON.stringify(updatedRooms));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedRooms));
       return updatedRooms;
+    });
+  };
+
+  const updateRoomName = (roomId: string, newName: string) => {
+    setRooms(prevRooms => {
+      const updatedRooms = prevRooms.map(room =>
+        room.id === roomId ? { ...room, name: newName } : room
+      );
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedRooms));
+      return updatedRooms;
+    });
+  };
+
+  const addSupply = (name: string, quantity: string, category: string) => {
+    const newSupply: Supply = {
+      id: `s-${Date.now()}`,
+      name,
+      quantity,
+      category,
+      checked: false
+    };
+    setSupplies(prev => {
+      const updated = [...prev, newSupply];
+      localStorage.setItem(SUPPLIES_KEY, JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  const updateSupply = (id: string, updates: Partial<Supply>) => {
+    setSupplies(prev => {
+      const updated = prev.map(s => s.id === id ? { ...s, ...updates } : s);
+      localStorage.setItem(SUPPLIES_KEY, JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  const deleteSupply = (id: string) => {
+    setSupplies(prev => {
+      const updated = prev.filter(s => s.id !== id);
+      localStorage.setItem(SUPPLIES_KEY, JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  const updateDeclutterDay = (day: number, completed: boolean) => {
+    setDeclutterDays(prev => {
+      const updated = prev.map(d => d.day === day ? { ...d, completed } : d);
+      localStorage.setItem(DECLUTTER_KEY, JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  const addRepair = (title: string, description: string, roomId: string, priority: RepairItem['priority']) => {
+    const newRepair: RepairItem = {
+      id: `r-${Date.now()}`,
+      title,
+      description,
+      roomId,
+      priority,
+      completed: false,
+      createdAt: new Date().toISOString()
+    };
+    setRepairs(prev => {
+      const updated = [...prev, newRepair];
+      localStorage.setItem(REPAIRS_KEY, JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  const updateRepair = (id: string, updates: Partial<RepairItem>) => {
+    setRepairs(prev => {
+      const updated = prev.map(r => r.id === id ? { ...r, ...updates } : r);
+      localStorage.setItem(REPAIRS_KEY, JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  const deleteRepair = (id: string) => {
+    setRepairs(prev => {
+      const updated = prev.filter(r => r.id !== id);
+      localStorage.setItem(REPAIRS_KEY, JSON.stringify(updated));
+      return updated;
     });
   };
 
@@ -572,15 +786,26 @@ export function CleaningProvider({ children }: { children: ReactNode }) {
     <CleaningContext.Provider
       value={{
         rooms,
+        supplies,
+        declutterDays,
+        repairs,
         updateTask,
         addTask,
         deleteTask,
         editTask,
+        updateRoomName,
         getProgress,
         getOverallProgress,
         getTotalPoints,
         getEarnedRewards,
         updateReward,
+        addSupply,
+        updateSupply,
+        deleteSupply,
+        updateDeclutterDay,
+        addRepair,
+        updateRepair,
+        deleteRepair,
       }}
     >
       {children}

@@ -1,20 +1,46 @@
 import { useCleaning } from '@/contexts/CleaningProvider';
+import { Navigation } from '@/components/Navigation';
 import Link from 'next/link';
-import { Sparkles, Award } from 'lucide-react';
+import { Sparkles, Award, Edit2, Check, X } from 'lucide-react';
 import Image from 'next/image';
+import { useState } from 'react';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 export default function Home() {
-  const { rooms, getProgress, getOverallProgress, getTotalPoints, getEarnedRewards } = useCleaning();
+  const { rooms, getProgress, getOverallProgress, getTotalPoints, getEarnedRewards, updateRoomName } = useCleaning();
   const overallProgress = getOverallProgress();
   const totalPoints = getTotalPoints();
   const earnedRewards = getEarnedRewards();
 
+  const [editingRoomId, setEditingRoomId] = useState<string | null>(null);
+  const [editingName, setEditingName] = useState('');
+
+  const handleStartEdit = (roomId: string, currentName: string) => {
+    setEditingRoomId(roomId);
+    setEditingName(currentName);
+  };
+
+  const handleSaveEdit = () => {
+    if (editingRoomId && editingName.trim()) {
+      updateRoomName(editingRoomId, editingName.trim());
+      setEditingRoomId(null);
+      setEditingName('');
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingRoomId(null);
+    setEditingName('');
+  };
+
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8 relative overflow-hidden">
+    <div className="min-h-screen bg-background pb-24 md:pb-8 md:pt-20 relative overflow-hidden">
+      <Navigation />
       <div className="absolute inset-0 bg-gradient-radial from-primary/20 via-transparent to-transparent pointer-events-none" />
       <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-radial from-secondary/10 via-transparent to-transparent pointer-events-none blur-3xl" />
       
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto relative z-10 p-4 md:p-8">
         <header className="text-center mb-12">
           <div className="flex justify-center mb-6">
             <div className="relative w-32 h-32 rounded-full border-4 border-primary shadow-lg shadow-primary/50 animate-glow-pulse">
@@ -78,22 +104,25 @@ export default function Home() {
           {rooms.map((room) => {
             const progress = getProgress(room.id);
             const isComplete = progress === 100;
+            const isEditing = editingRoomId === room.id;
 
             return (
-              <Link
-                key={room.id}
-                href={`/room/${room.id}`}
-                className="group block"
-              >
-                <div
+              <div key={room.id} className="group">
+                <Link
+                  href={`/room/${room.id}`}
                   className={`
-                    relative bg-card rounded-lg p-6 border-2 transition-all duration-300
+                    block relative bg-card rounded-lg p-6 border-2 transition-all duration-300
                     hover:scale-105 cursor-pointer
                     ${isComplete 
                       ? 'border-neon-lime' 
                       : 'border-neon-cyan hover:border-neon-pink'
                     }
                   `}
+                  onClick={(e) => {
+                    if (isEditing) {
+                      e.preventDefault();
+                    }
+                  }}
                 >
                   {isComplete && (
                     <div className="absolute -top-3 -right-3 bg-accent text-black rounded-full p-2 animate-bounce">
@@ -104,9 +133,50 @@ export default function Home() {
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
                       <div className="text-4xl mb-2">{room.emoji}</div>
-                      <h2 className="text-2xl font-display text-foreground mb-1">
-                        {room.name}
-                      </h2>
+                      {isEditing ? (
+                        <div className="flex items-center gap-2" onClick={(e) => e.preventDefault()}>
+                          <Input
+                            value={editingName}
+                            onChange={(e) => setEditingName(e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') handleSaveEdit();
+                              if (e.key === 'Escape') handleCancelEdit();
+                            }}
+                            className="bg-background border-secondary text-base"
+                            autoFocus
+                          />
+                          <Button
+                            size="sm"
+                            onClick={handleSaveEdit}
+                            className="bg-accent text-black hover:bg-accent/80"
+                          >
+                            <Check className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={handleCancelEdit}
+                            className="border-destructive text-destructive"
+                          >
+                            <X className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-2">
+                          <h2 className="text-2xl font-display text-foreground">
+                            {room.name}
+                          </h2>
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleStartEdit(room.id, room.name);
+                            }}
+                            className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-secondary/20 rounded"
+                          >
+                            <Edit2 className="w-4 h-4 text-secondary" />
+                          </button>
+                        </div>
+                      )}
                     </div>
                     <div className="text-right">
                       <div className={`text-3xl font-bold ${
@@ -141,8 +211,8 @@ export default function Home() {
                       TAP TO CLEAN →
                     </span>
                   </div>
-                </div>
-              </Link>
+                </Link>
+              </div>
             );
           })}
         </div>
