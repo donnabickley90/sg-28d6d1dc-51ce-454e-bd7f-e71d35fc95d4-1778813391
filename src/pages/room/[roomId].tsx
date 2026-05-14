@@ -2,7 +2,7 @@ import { useCleaning } from '@/contexts/CleaningProvider';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useState } from 'react';
-import { ArrowLeft, Plus, Trash2, Check, X, Edit2, Award, PartyPopper, Settings } from 'lucide-react';
+import { ArrowLeft, Plus, Trash2, Check, X, Edit2, Award, PartyPopper, Settings, PawPrint } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -104,33 +104,33 @@ export default function RoomPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8 relative overflow-hidden">
+    <div className="min-h-screen bg-background p-4 md:p-8 pb-24 md:pb-8 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-radial from-primary/10 via-transparent to-transparent pointer-events-none" />
       
       {showReward && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 animate-in fade-in backdrop-blur-sm">
-          <div className="text-center relative max-w-lg px-6">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 animate-in fade-in backdrop-blur-sm p-4">
+          <div className="text-center relative max-w-lg w-full px-4 md:px-6">
             <div className="absolute inset-0 bg-primary/20 blur-3xl animate-pulse" />
-            <div className="text-8xl mb-6 relative z-10 animate-bounce">
+            <div className="text-6xl md:text-8xl mb-4 md:mb-6 relative z-10 animate-bounce">
               {room.reward.celebration}
             </div>
-            <PartyPopper className="w-32 h-32 text-accent mx-auto mb-4 animate-bounce relative z-10" />
-            <h2 className="text-5xl font-display text-neon-lime mb-4 relative z-10">
+            <PartyPopper className="w-24 h-24 md:w-32 md:h-32 text-accent mx-auto mb-4 animate-bounce relative z-10" />
+            <h2 className="text-3xl md:text-5xl font-display text-neon-lime mb-3 md:mb-4 relative z-10">
               ROOM COMPLETE!
             </h2>
-            <p className="text-2xl text-neon-pink mb-4 relative z-10 font-bold">
+            <p className="text-lg md:text-2xl text-neon-pink mb-3 md:mb-4 relative z-10 font-bold">
               {room.reward.message}
             </p>
-            <p className="text-3xl text-neon-cyan relative z-10 font-bold">
+            <p className="text-2xl md:text-3xl text-neon-cyan relative z-10 font-bold">
               +{room.reward.points} Chaos Goblin Points!
             </p>
-            <div className="mt-6 relative z-10">
+            <div className="mt-4 md:mt-6 relative z-10">
               <Image
                 src="/kitten-avatar.png"
                 alt="Chaos Kitten"
-                width={80}
-                height={80}
-                className="rounded-full border-2 border-accent mx-auto"
+                width={60}
+                height={60}
+                className="rounded-full border-2 border-accent mx-auto md:w-20 md:h-20"
               />
             </div>
           </div>
@@ -138,12 +138,12 @@ export default function RoomPage() {
       )}
 
       <div className="max-w-4xl mx-auto relative z-10">
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
+        <div className="mb-6 md:mb-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
             <Link href="/">
-              <Button variant="outline" className="border-neon-cyan hover:bg-secondary/10">
+              <Button variant="outline" size="sm" className="border-neon-cyan hover:bg-secondary/10 w-full sm:w-auto">
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Dashboard
+                Back
               </Button>
             </Link>
 
@@ -151,22 +151,23 @@ export default function RoomPage() {
               <DialogTrigger asChild>
                 <Button
                   variant="outline"
+                  size="sm"
                   onClick={handleOpenRewardEditor}
-                  className="border-accent hover:bg-accent/10"
+                  className="border-accent hover:bg-accent/10 w-full sm:w-auto"
                 >
                   <Settings className="w-4 h-4 mr-2" />
                   Edit Reward
                 </Button>
               </DialogTrigger>
-              <DialogContent className="bg-card border-primary">
+              <DialogContent className="bg-card border-primary max-w-md mx-4">
                 <DialogHeader>
-                  <DialogTitle className="text-2xl font-display text-neon-pink">
+                  <DialogTitle className="text-xl md:text-2xl font-display text-neon-pink">
                     Customize Reward
                   </DialogTitle>
                 </DialogHeader>
                 <div className="space-y-4 mt-4">
                   <div>
-                    <Label htmlFor="reward-message" className="text-foreground mb-2 block">
+                    <Label htmlFor="reward-message" className="text-foreground mb-2 block text-sm">
                       Reward Message
                     </Label>
                     <Input
@@ -178,7 +179,7 @@ export default function RoomPage() {
                     />
                   </div>
                   <div>
-                    <Label htmlFor="reward-points" className="text-foreground mb-2 block">
+                    <Label htmlFor="reward-points" className="text-foreground mb-2 block text-sm">
                       Points Value
                     </Label>
                     <Input
@@ -191,7 +192,7 @@ export default function RoomPage() {
                     />
                   </div>
                   <div>
-                    <Label htmlFor="reward-celebration" className="text-foreground mb-2 block">
+                    <Label htmlFor="reward-celebration" className="text-foreground mb-2 block text-sm">
                       Celebration Emoji
                     </Label>
                     <Input
@@ -199,7 +200,7 @@ export default function RoomPage() {
                       value={rewardCelebration}
                       onChange={(e) => setRewardCelebration(e.target.value)}
                       placeholder="🎉"
-                      className="bg-background border-secondary text-4xl text-center"
+                      className="bg-background border-secondary text-3xl md:text-4xl text-center"
                       maxLength={4}
                     />
                   </div>
@@ -214,30 +215,30 @@ export default function RoomPage() {
             </Dialog>
           </div>
 
-          <div className="flex items-center gap-6 mb-6">
-            <div className="text-6xl">{room.emoji}</div>
-            <div className="flex-1">
-              <h1 className="text-4xl md:text-5xl font-display text-neon-pink mb-2">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 mb-4 md:mb-6">
+            <div className="text-5xl md:text-6xl">{room.emoji}</div>
+            <div className="flex-1 w-full">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display text-neon-pink mb-2">
                 {room.name}
               </h1>
-              <div className="flex items-center gap-4">
-                <div className="text-3xl font-bold text-neon-lime">
+              <div className="flex flex-wrap items-center gap-3 md:gap-4">
+                <div className="text-2xl md:text-3xl font-bold text-neon-lime">
                   {progress}%
                 </div>
-                <div className="text-muted-foreground">
+                <div className="text-sm md:text-base text-muted-foreground">
                   {room.tasks.filter(t => t.completed).length} / {room.tasks.length} tasks
                 </div>
                 {progress === 100 && (
                   <div className="flex items-center gap-2 text-accent">
-                    <Award className="w-5 h-5" />
-                    <span className="font-bold">+{room.reward.points}pts</span>
+                    <Award className="w-4 h-4 md:w-5 md:h-5" />
+                    <span className="text-sm md:text-base font-bold">+{room.reward.points}pts</span>
                   </div>
                 )}
               </div>
             </div>
           </div>
 
-          <div className="h-4 bg-muted rounded-full border-2 border-primary overflow-hidden">
+          <div className="h-3 md:h-4 bg-muted rounded-full border-2 border-primary overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-primary via-secondary to-accent transition-all duration-500"
               style={{ width: `${progress}%` }}
@@ -245,7 +246,7 @@ export default function RoomPage() {
           </div>
         </div>
 
-        <div className="space-y-3 mb-8">
+        <div className="space-y-2.5 md:space-y-3 mb-6 md:mb-8">
           {room.tasks.map((task) => (
             <div
               key={task.id}
@@ -290,26 +291,31 @@ export default function RoomPage() {
                   <button
                     onClick={() => handleToggleTask(task.id, task.completed)}
                     className={`
-                      mt-1 w-6 h-6 rounded border-2 flex items-center justify-center
-                      transition-all duration-300 flex-shrink-0
+                      mt-1 w-8 h-8 rounded-full border-2 flex items-center justify-center
+                      transition-all duration-300 flex-shrink-0 relative
                       ${task.completed
-                        ? 'bg-accent border-accent'
+                        ? 'bg-accent border-accent scale-110'
                         : 'border-secondary hover:border-primary hover:bg-primary/10'
                       }
                     `}
                   >
-                    {task.completed && <Check className="w-4 h-4 text-black" />}
+                    {task.completed && <PawPrint className="w-5 h-5 text-black" />}
                   </button>
 
                   <span
                     className={`
-                      flex-1 text-lg transition-all duration-300
+                      flex-1 text-base md:text-lg transition-all duration-300 relative
                       ${task.completed
-                        ? 'line-through text-muted-foreground opacity-60'
+                        ? 'text-muted-foreground opacity-60'
                         : 'text-foreground font-semibold'
                       }
                     `}
                   >
+                    {task.completed && (
+                      <span className="absolute inset-0 flex items-center">
+                        <span className="w-full h-0.5 bg-accent/60 rotate-[-2deg]"></span>
+                      </span>
+                    )}
                     {task.text}
                   </span>
 

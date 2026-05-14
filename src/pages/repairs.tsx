@@ -1,7 +1,7 @@
 import { useCleaning } from '@/contexts/CleaningProvider';
 import { Navigation } from '@/components/Navigation';
 import { useState } from 'react';
-import { Plus, Trash2, Check, Wrench, AlertCircle } from 'lucide-react';
+import { Plus, Trash2, Check, Wrench, AlertCircle, PawPrint } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -139,9 +139,9 @@ export default function RepairsPage() {
                     <div className="flex items-start gap-3">
                       <button
                         onClick={() => updateRepair(repair.id, { completed: true })}
-                        className="mt-1 w-7 h-7 rounded border-2 border-secondary flex items-center justify-center flex-shrink-0 hover:bg-accent hover:border-accent transition-all"
+                        className="mt-1 w-8 h-8 rounded-full border-2 border-secondary flex items-center justify-center flex-shrink-0 hover:bg-accent hover:border-accent transition-all"
                       >
-                        <Check className="w-5 h-5" />
+                        <PawPrint className="w-5 h-5" />
                       </button>
 
                       <div className="flex-1">
@@ -196,11 +196,14 @@ export default function RepairsPage() {
                     className="group bg-card/50 rounded-lg p-4 border border-accent/30 opacity-60"
                   >
                     <div className="flex items-start gap-3">
-                      <div className="mt-1 w-6 h-6 rounded bg-accent border-2 border-accent flex items-center justify-center flex-shrink-0">
-                        <Check className="w-4 h-4 text-black" />
+                      <div className="mt-1 w-8 h-8 rounded-full bg-accent border-2 border-accent flex items-center justify-center flex-shrink-0">
+                        <PawPrint className="w-5 h-5 text-black" />
                       </div>
-                      <div className="flex-1">
-                        <h3 className="text-base font-bold text-foreground line-through mb-1">
+                      <div className="flex-1 relative">
+                        <h3 className="text-base font-bold text-foreground mb-1">
+                          <span className="absolute inset-0 flex items-center">
+                            <span className="w-full h-0.5 bg-accent/60 rotate-[-1deg]"></span>
+                          </span>
                           {repair.title}
                         </h3>
                         {room && (

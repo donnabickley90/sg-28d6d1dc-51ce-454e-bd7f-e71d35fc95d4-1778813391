@@ -41,9 +41,9 @@ export default function Home() {
       <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-radial from-secondary/10 via-transparent to-transparent pointer-events-none blur-3xl" />
       
       <div className="max-w-7xl mx-auto relative z-10 p-4 md:p-8">
-        <header className="text-center mb-12">
-          <div className="flex justify-center mb-6">
-            <div className="relative w-32 h-32 rounded-full border-4 border-primary shadow-lg shadow-primary/50 animate-glow-pulse">
+        <header className="text-center mb-8 md:mb-12">
+          <div className="flex justify-center mb-4 md:mb-6">
+            <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-primary shadow-lg shadow-primary/50 animate-glow-pulse">
               <Image
                 src="/kitten-avatar.png"
                 alt="Chaos Kitten Avatar"
@@ -54,53 +54,53 @@ export default function Home() {
             </div>
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-display text-neon-pink mb-4 animate-glow-pulse">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-display text-neon-pink mb-3 md:mb-4 animate-glow-pulse px-2">
             KITTENS CLEANING CHAOS
           </h1>
-          <div className="flex items-center justify-center gap-3 mb-2">
-            <Sparkles className="w-8 h-8 text-accent" />
-            <p className="text-xl md:text-2xl text-neon-cyan">
+          <div className="flex items-center justify-center gap-2 md:gap-3 mb-2 px-2">
+            <Sparkles className="w-6 h-6 md:w-8 md:h-8 text-accent flex-shrink-0" />
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-neon-cyan">
               Your Chaos Goblin Spring Cleaning Quest
             </p>
-            <Sparkles className="w-8 h-8 text-accent" />
+            <Sparkles className="w-6 h-6 md:w-8 md:h-8 text-accent flex-shrink-0" />
           </div>
-          <p className="text-lg text-primary/80 font-bold italic mb-6">
+          <p className="text-sm md:text-lg text-primary/80 font-bold italic mb-4 md:mb-6">
             cute. feral. claimed.
           </p>
 
-          <div className="flex justify-center gap-8 mb-6">
+          <div className="flex justify-center gap-4 md:gap-8 mb-4 md:mb-6">
             <div className="text-center">
-              <div className="text-4xl font-bold text-neon-lime mb-1">{totalPoints}</div>
-              <div className="text-sm text-muted-foreground">CHAOS POINTS</div>
+              <div className="text-2xl md:text-4xl font-bold text-neon-lime mb-1">{totalPoints}</div>
+              <div className="text-xs md:text-sm text-muted-foreground">CHAOS POINTS</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-neon-cyan mb-1">{earnedRewards.length}</div>
-              <div className="text-sm text-muted-foreground">ROOMS COMPLETE</div>
+              <div className="text-2xl md:text-4xl font-bold text-neon-cyan mb-1">{earnedRewards.length}</div>
+              <div className="text-xs md:text-sm text-muted-foreground">ROOMS COMPLETE</div>
             </div>
           </div>
 
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-2xl mx-auto px-2">
             <div className="flex justify-between items-center mb-2">
-              <span className="text-lg font-bold text-foreground">Overall Progress</span>
-              <span className="text-2xl font-bold text-neon-lime">{overallProgress}%</span>
+              <span className="text-sm md:text-lg font-bold text-foreground">Overall Progress</span>
+              <span className="text-xl md:text-2xl font-bold text-neon-lime">{overallProgress}%</span>
             </div>
-            <div className="h-8 bg-muted rounded-lg border-2 border-primary overflow-hidden shadow-lg shadow-primary/30">
+            <div className="h-6 md:h-8 bg-muted rounded-lg border-2 border-primary overflow-hidden shadow-lg shadow-primary/30">
               <div
                 className="h-full bg-gradient-to-r from-primary via-secondary to-accent transition-all duration-500"
                 style={{ width: `${overallProgress}%` }}
               />
             </div>
             {overallProgress === 100 && (
-              <div className="mt-4 flex items-center justify-center gap-2 text-accent text-xl">
-                <Award className="w-6 h-6" />
+              <div className="mt-3 md:mt-4 flex items-center justify-center gap-2 text-accent text-base md:text-xl">
+                <Award className="w-5 h-5 md:w-6 md:h-6" />
                 <span className="font-bold">CHAOS GOBLIN MASTER!</span>
-                <Award className="w-6 h-6" />
+                <Award className="w-5 h-5 md:w-6 md:h-6" />
               </div>
             )}
           </div>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {rooms.map((room) => {
             const progress = getProgress(room.id);
             const isComplete = progress === 100;
@@ -111,8 +111,8 @@ export default function Home() {
                 <Link
                   href={`/room/${room.id}`}
                   className={`
-                    block relative bg-card rounded-lg p-6 border-2 transition-all duration-300
-                    hover:scale-105 cursor-pointer
+                    block relative bg-card rounded-lg p-4 md:p-6 border-2 transition-all duration-300
+                    active:scale-95 md:hover:scale-105 cursor-pointer
                     ${isComplete 
                       ? 'border-neon-lime' 
                       : 'border-neon-cyan hover:border-neon-pink'
@@ -125,14 +125,14 @@ export default function Home() {
                   }}
                 >
                   {isComplete && (
-                    <div className="absolute -top-3 -right-3 bg-accent text-black rounded-full p-2 animate-bounce">
-                      <Award className="w-6 h-6" />
+                    <div className="absolute -top-2 -right-2 md:-top-3 md:-right-3 bg-accent text-black rounded-full p-1.5 md:p-2 animate-bounce">
+                      <Award className="w-5 h-5 md:w-6 md:h-6" />
                     </div>
                   )}
 
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex-1">
-                      <div className="text-4xl mb-2">{room.emoji}</div>
+                  <div className="flex items-start justify-between mb-3 md:mb-4">
+                    <div className="flex-1 min-w-0">
+                      <div className="text-3xl md:text-4xl mb-2">{room.emoji}</div>
                       {isEditing ? (
                         <div className="flex items-center gap-2" onClick={(e) => e.preventDefault()}>
                           <Input
@@ -142,13 +142,13 @@ export default function Home() {
                               if (e.key === 'Enter') handleSaveEdit();
                               if (e.key === 'Escape') handleCancelEdit();
                             }}
-                            className="bg-background border-secondary text-base"
+                            className="bg-background border-secondary text-sm md:text-base"
                             autoFocus
                           />
                           <Button
                             size="sm"
                             onClick={handleSaveEdit}
-                            className="bg-accent text-black hover:bg-accent/80"
+                            className="bg-accent text-black hover:bg-accent/80 flex-shrink-0"
                           >
                             <Check className="w-4 h-4" />
                           </Button>
@@ -156,14 +156,14 @@ export default function Home() {
                             size="sm"
                             variant="outline"
                             onClick={handleCancelEdit}
-                            className="border-destructive text-destructive"
+                            className="border-destructive text-destructive flex-shrink-0"
                           >
                             <X className="w-4 h-4" />
                           </Button>
                         </div>
                       ) : (
                         <div className="flex items-center gap-2">
-                          <h2 className="text-2xl font-display text-foreground">
+                          <h2 className="text-lg md:text-2xl font-display text-foreground truncate">
                             {room.name}
                           </h2>
                           <button
@@ -171,20 +171,20 @@ export default function Home() {
                               e.preventDefault();
                               handleStartEdit(room.id, room.name);
                             }}
-                            className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-secondary/20 rounded"
+                            className="opacity-0 md:group-hover:opacity-100 transition-opacity p-1 hover:bg-secondary/20 rounded flex-shrink-0"
                           >
                             <Edit2 className="w-4 h-4 text-secondary" />
                           </button>
                         </div>
                       )}
                     </div>
-                    <div className="text-right">
-                      <div className={`text-3xl font-bold ${
+                    <div className="text-right flex-shrink-0 ml-2">
+                      <div className={`text-2xl md:text-3xl font-bold ${
                         isComplete ? 'text-neon-lime' : 'text-neon-cyan'
                       }`}>
                         {progress}%
                       </div>
-                      <div className="text-sm text-muted-foreground">
+                      <div className="text-xs md:text-sm text-muted-foreground">
                         {room.tasks.filter(t => t.completed).length}/{room.tasks.length}
                       </div>
                       {isComplete && (
@@ -195,7 +195,7 @@ export default function Home() {
                     </div>
                   </div>
 
-                  <div className="h-3 bg-muted rounded-full border border-border overflow-hidden">
+                  <div className="h-2.5 md:h-3 bg-muted rounded-full border border-border overflow-hidden">
                     <div
                       className={`h-full transition-all duration-500 ${
                         isComplete 
@@ -206,8 +206,8 @@ export default function Home() {
                     />
                   </div>
 
-                  <div className="mt-4 text-center">
-                    <span className="text-sm font-bold text-primary group-hover:text-secondary transition-colors">
+                  <div className="mt-3 md:mt-4 text-center">
+                    <span className="text-xs md:text-sm font-bold text-primary group-hover:text-secondary transition-colors">
                       TAP TO CLEAN →
                     </span>
                   </div>

@@ -1,7 +1,7 @@
 import { useCleaning } from '@/contexts/CleaningProvider';
 import { Navigation } from '@/components/Navigation';
 import { useState } from 'react';
-import { Plus, Trash2, Check, ShoppingCart } from 'lucide-react';
+import { Plus, Trash2, Check, ShoppingCart, PawPrint } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -89,22 +89,27 @@ export default function SuppliesPage() {
                     <button
                       onClick={() => updateSupply(item.id, { checked: !item.checked })}
                       className={`
-                        w-6 h-6 rounded border-2 flex items-center justify-center flex-shrink-0
+                        w-8 h-8 rounded-full border-2 flex items-center justify-center flex-shrink-0
                         transition-all duration-300
                         ${item.checked
-                          ? 'bg-accent border-accent'
+                          ? 'bg-accent border-accent scale-110'
                           : 'border-secondary hover:border-primary hover:bg-primary/10'
                         }
                       `}
                     >
-                      {item.checked && <Check className="w-4 h-4 text-black" />}
+                      {item.checked && <PawPrint className="w-5 h-5 text-black" />}
                     </button>
 
-                    <div className="flex-1">
+                    <div className="flex-1 relative">
                       <div className={`
                         font-semibold transition-all
-                        ${item.checked ? 'line-through text-muted-foreground' : 'text-foreground'}
+                        ${item.checked ? 'text-muted-foreground' : 'text-foreground'}
                       `}>
+                        {item.checked && (
+                          <span className="absolute inset-0 flex items-center">
+                            <span className="w-full h-0.5 bg-accent/60 rotate-[-1deg]"></span>
+                          </span>
+                        )}
                         {item.name}
                       </div>
                       <div className="text-sm text-muted-foreground">

@@ -1,7 +1,7 @@
 import { useCleaning } from '@/contexts/CleaningProvider';
 import { Navigation } from '@/components/Navigation';
 import { useState } from 'react';
-import { Check, Calendar, Trophy, Edit2, X, Save } from 'lucide-react';
+import { Check, Calendar, Trophy, Edit2, X, Save, PawPrint } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -134,15 +134,15 @@ export default function DeclutterPage() {
                     <button
                       onClick={() => updateDeclutterDay(day.day, !day.completed)}
                       className={`
-                        mt-1 w-7 h-7 rounded border-2 flex items-center justify-center flex-shrink-0
+                        mt-1 w-8 h-8 rounded-full border-2 flex items-center justify-center flex-shrink-0
                         transition-all duration-300
                         ${day.completed
-                          ? 'bg-accent border-accent'
+                          ? 'bg-accent border-accent scale-110'
                           : 'border-secondary group-hover:border-primary group-hover:bg-primary/10'
                         }
                       `}
                     >
-                      {day.completed && <Check className="w-5 h-5 text-black" />}
+                      {day.completed && <PawPrint className="w-5 h-5 text-black" />}
                     </button>
 
                     <div className="flex-1">
@@ -155,9 +155,14 @@ export default function DeclutterPage() {
                         </span>
                       </div>
                       <h3 className={`
-                        text-lg font-display mb-1 transition-all
-                        ${day.completed ? 'line-through text-muted-foreground' : 'text-foreground'}
+                        text-lg font-display mb-1 transition-all relative
+                        ${day.completed ? 'text-muted-foreground' : 'text-foreground'}
                       `}>
+                        {day.completed && (
+                          <span className="absolute inset-0 flex items-center">
+                            <span className="w-full h-0.5 bg-accent/60 rotate-[-2deg]"></span>
+                          </span>
+                        )}
                         {day.title}
                       </h3>
                       <p className="text-sm text-muted-foreground">
