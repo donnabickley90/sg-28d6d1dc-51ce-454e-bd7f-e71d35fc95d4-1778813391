@@ -15,9 +15,9 @@ export default function Home() {
       <div className="max-w-7xl mx-auto relative z-10">
         <header className="text-center mb-12">
           <div className="flex justify-center mb-6">
-            <div className="relative w-32 h-32 rounded-full border-4 border-primary shadow-lg shadow-primary/50">
+            <div className="relative w-32 h-32 rounded-full border-4 border-primary shadow-lg shadow-primary/50 animate-glow-pulse">
               <Image
-                src="/kitten-avatar.png"
+                src="/chaos-kitten.png"
                 alt="Chaos Kitten Avatar"
                 fill
                 className="object-cover rounded-full"
@@ -60,7 +60,75 @@ export default function Home() {
             )}
           </div>
         </header>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {rooms.map((room) => {
+            const progress = getProgress(room.id);
+            const isComplete = progress === 100;
+
+            return (
+              <Link
+                key={room.id}
+                href={`/room/${room.id}`}
+                className="group block"
+              >
+                <div
+                  className={`
+                    relative bg-card rounded-lg p-6 border-2 transition-all duration-300
+                    hover:scale-105 cursor-pointer
+                    ${isComplete 
+                      ? 'border-neon-lime' 
+                      : 'border-neon-cyan hover:border-neon-pink'
+                    }
+                  `}
+                >
+                  {isComplete && (
+                    <div className="absolute -top-3 -right-3 bg-accent text-black rounded-full p-2 animate-bounce">
+                      <Award className="w-6 h-6" />
+                    </div>
+                  )}
+
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex-1">
+                      <div className="text-4xl mb-2">{room.emoji}</div>
+                      <h2 className="text-2xl font-display text-foreground mb-1">
+                        {room.name}
+                      </h2>
+                    </div>
+                    <div className="text-right">
+                      <div className={`text-3xl font-bold ${
+                        isComplete ? 'text-neon-lime' : 'text-neon-cyan'
+                      }`}>
+                        {progress}%
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        {room.tasks.filter(t => t.completed).length}/{room.tasks.length}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="h-3 bg-muted rounded-full border border-border overflow-hidden">
+                    <div
+                      className={`h-full transition-all duration-500 ${
+                        isComplete 
+                          ? 'bg-accent' 
+                          : 'bg-gradient-to-r from-secondary to-primary'
+                      }`}
+                      style={{ width: `${progress}%` }}
+                    />
+                  </div>
+
+                  <div className="mt-4 text-center">
+                    <span className="text-sm font-bold text-primary group-hover:text-secondary transition-colors">
+                      TAP TO CLEAN →
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
       </div>
     </div>
-  )
+  );
 }
