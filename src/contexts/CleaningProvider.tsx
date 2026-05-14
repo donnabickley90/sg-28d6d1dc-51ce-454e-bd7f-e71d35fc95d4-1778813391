@@ -529,6 +529,73 @@ const defaultRooms: Room[] = [
       { id: "tub-10", text: "Sort through Tub 10 - keep/donate/toss", completed: false },
     ]
   },
+  {
+    id: "indoor-fish-room",
+    name: "Indoor Fish Room",
+    emoji: "🐠",
+    reward: {
+      message: "Aquatic paradise perfected! Fish are thriving!",
+      points: 180,
+      celebration: "🐟"
+    },
+    tasks: [
+      { id: "ifr-1", text: "Test and record water parameters (pH, ammonia, nitrite, nitrate)", completed: false },
+      { id: "ifr-2", text: "Perform 25-30% water change", completed: false },
+      { id: "ifr-3", text: "Clean tank glass inside and out", completed: false },
+      { id: "ifr-4", text: "Vacuum gravel/substrate", completed: false },
+      { id: "ifr-5", text: "Clean filter media (rinse in old tank water)", completed: false },
+      { id: "ifr-6", text: "Trim and remove dead plants", completed: false },
+      { id: "ifr-7", text: "Check and clean equipment (heater, air pump, lights)", completed: false },
+      { id: "ifr-8", text: "Wipe down tank stand and surrounding area", completed: false },
+      { id: "ifr-9", text: "Organize fish food and supplies", completed: false },
+      { id: "ifr-10", text: "Check expiry dates on medications and treatments", completed: false },
+    ]
+  },
+  {
+    id: "outdoor-fish-room",
+    name: "Outdoor Fish Room",
+    emoji: "🐟",
+    reward: {
+      message: "Outdoor aquatic oasis complete! Pond perfection!",
+      points: 200,
+      celebration: "🌊"
+    },
+    tasks: [
+      { id: "ofr-1", text: "Test outdoor tank water parameters", completed: false },
+      { id: "ofr-2", text: "Perform partial water change", completed: false },
+      { id: "ofr-3", text: "Clean exterior glass/acrylic", completed: false },
+      { id: "ofr-4", text: "Remove debris and algae from surfaces", completed: false },
+      { id: "ofr-5", text: "Clean and service filter system", completed: false },
+      { id: "ofr-6", text: "Check UV sterilizer if present", completed: false },
+      { id: "ofr-7", text: "Trim aquatic plants", completed: false },
+      { id: "ofr-8", text: "Check air stones and pumps", completed: false },
+      { id: "ofr-9", text: "Inspect for leaks or damage", completed: false },
+      { id: "ofr-10", text: "Clean surrounding area and equipment storage", completed: false },
+    ]
+  },
+  {
+    id: "garden",
+    name: "Garden",
+    emoji: "🌿",
+    reward: {
+      message: "Green thumb champion! Garden goals achieved!",
+      points: 190,
+      celebration: "🌱"
+    },
+    tasks: [
+      { id: "g-1", text: "Weed all garden beds", completed: false },
+      { id: "g-2", text: "Prune and harvest herbs (basil, parsley, thyme, etc)", completed: false },
+      { id: "g-3", text: "Check herb garden for pests", completed: false },
+      { id: "g-4", text: "Water all plants and herb garden", completed: false },
+      { id: "g-5", text: "Fertilize herbs and plants as needed", completed: false },
+      { id: "g-6", text: "Deadhead flowers", completed: false },
+      { id: "g-7", text: "Clear pathways and edges", completed: false },
+      { id: "g-8", text: "Clean and organize garden tools", completed: false },
+      { id: "g-9", text: "Check irrigation system if present", completed: false },
+      { id: "g-10", text: "Mulch garden beds", completed: false },
+      { id: "g-11", text: "Sweep/clean patio or outdoor seating area", completed: false },
+    ]
+  },
 ];
 
 const defaultSupplies: Supply[] = [
