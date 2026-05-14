@@ -1,20 +1,46 @@
 import { useCleaning } from '@/contexts/CleaningProvider';
 import { Navigation } from '@/components/Navigation';
 import Link from 'next/link';
-import { Sparkles, Award, Edit2, Check, X } from 'lucide-react';
-import Image from 'next/image';
-import { useState } from 'react';
-import { Input } from '@/components/ui/input';
+import { useState, useEffect } from 'react';
+import { Award, Edit2, Check, X, Sparkles, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import Image from 'next/image';
+
+const KITTEN_QUOTES = [
+  "Good kittens keep their collars clean... and the floors cleaner. Make Daddy proud. 🐾",
+  "A messy room means no treats. Show me how obedient my little pet can be. 🖤",
+  "Scrub until you earn that 'good girl'. Daddy's watching. 👀",
+  "The collar stays on, but the dust must go. Get on your knees and clean. 🧹",
+  "Daddy loves a spotless house. Don't make him punish his favorite kitten. 😼",
+  "Beg for his praise by making these floors shine. Good pets do their chores. ✨",
+  "Earning your headpats requires a clean kitchen. Hop to it, kitten. 😻",
+  "Submission isn't just in the bedroom; it's doing the dishes without being asked. 🍽️",
+  "A good pet anticipates Daddy's needs. And Daddy needs a clean house. 🏠",
+  "Show him you belong to him by taking care of his territory. 🖤",
+  "Purr for his approval. Work for his praise. Clean for his satisfaction. 🐾",
+  "Those knees aren't just for begging—use them to scrub the floor, little kitten. 🧽",
+  "Daddy's good girl keeps her toys put away when she's done playing. 🧸",
+  "Want him to scratch behind your ears? Show him a spotless bathroom first. 🛁",
+  "Your obedience is beautiful, but a clean house is even better. Get to work. 🧹",
+  "Show Daddy what a good, diligent pet you are. Make it sparkle. ✨",
+  "A clean collar and a clean house—the hallmarks of a perfect kitten. 🎀",
+  "Kneel and scrub, little one. Daddy's rewards are worth the effort. 🖤",
+  "The best kittens do their chores with a purr and a smile. 😺",
+  "Make Daddy proud of his little pet. Conquer this chaos! 🧹"
+];
 
 export default function Home() {
-  const { rooms, getProgress, getOverallProgress, getTotalPoints, getEarnedRewards, updateRoomName } = useCleaning();
-  const overallProgress = getOverallProgress();
-  const totalPoints = getTotalPoints();
-  const earnedRewards = getEarnedRewards();
-
+  const { rooms, getProgress, updateRoomName } = useCleaning();
   const [editingRoomId, setEditingRoomId] = useState<string | null>(null);
   const [editingName, setEditingName] = useState('');
+  const [currentQuote, setCurrentQuote] = useState("");
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+    setCurrentQuote(KITTEN_QUOTES[Math.floor(Math.random() * KITTEN_QUOTES.length)]);
+  }, []);
 
   const handleStartEdit = (roomId: string, currentName: string) => {
     setEditingRoomId(roomId);
@@ -33,6 +59,24 @@ export default function Home() {
     setEditingRoomId(null);
     setEditingName('');
   };
+
+  const generateNewQuote = () => {
+    let newQuote;
+    do {
+      newQuote = KITTEN_QUOTES[Math.floor(Math.random() * KITTEN_QUOTES.length)];
+    } while (newQuote === currentQuote && KITTEN_QUOTES.length > 1);
+    setCurrentQuote(newQuote);
+  };
+
+  const totalTasks = rooms.reduce((acc, room) => acc + room.tasks.length, 0);
+  const completedTasks = rooms.reduce(
+    (acc, room) => acc + room.tasks.filter(t => t.completed).length,
+    0
+  );
+
+  const earnedRewards = rooms.filter(room => getProgress(room.id) === 100);
+  const totalPoints = earnedRewards.reduce((acc, room) => acc + room.reward.points, 0);
+  const overallProgress = totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
 
   return (
     <div className="min-h-screen bg-background pb-24 md:pb-8 md:pt-20 relative overflow-hidden">
@@ -99,6 +143,29 @@ export default function Home() {
             )}
           </div>
         </header>
+
+        {/* Kitten Motivation Quote Generator */}
+        <div className="max-w-3xl mx-auto mb-8 md:mb-12 px-2">
+          <div className="relative bg-card border-2 border-primary rounded-lg p-6 md:p-8 shadow-lg shadow-primary/20">
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent text-black px-4 py-1 rounded-full text-xs md:text-sm font-bold border-2 border-background">
+              🐱 CHAOS KITTEN WISDOM 🐱
+            </div>
+            
+            <p className="text-base sm:text-lg md:text-xl text-center text-foreground font-bold leading-relaxed mb-6 mt-2 min-h-[4rem] flex items-center justify-center">
+              {isClient ? `"${currentQuote}"` : "..."}
+            </p>
+            
+            <div className="flex justify-center">
+              <Button
+                onClick={generateNewQuote}
+                className="bg-secondary hover:bg-secondary/80 text-black font-bold group"
+              >
+                <RefreshCw className="w-4 h-4 mr-2 group-hover:rotate-180 transition-transform duration-500" />
+                New Wisdom
+              </Button>
+            </div>
+          </div>
+        </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {rooms.map((room) => {
