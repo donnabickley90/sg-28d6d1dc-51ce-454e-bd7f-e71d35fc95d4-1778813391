@@ -4,8 +4,10 @@ import { Sparkles, Award } from 'lucide-react';
 import Image from 'next/image';
 
 export default function Home() {
-  const { rooms, getProgress, getOverallProgress } = useCleaning();
+  const { rooms, getProgress, getOverallProgress, getTotalPoints, getEarnedRewards } = useCleaning();
   const overallProgress = getOverallProgress();
+  const totalPoints = getTotalPoints();
+  const earnedRewards = getEarnedRewards();
 
   return (
     <div className="min-h-screen bg-background p-4 md:p-8 relative overflow-hidden">
@@ -39,6 +41,17 @@ export default function Home() {
           <p className="text-lg text-primary/80 font-bold italic mb-6">
             cute. feral. claimed.
           </p>
+
+          <div className="flex justify-center gap-8 mb-6">
+            <div className="text-center">
+              <div className="text-4xl font-bold text-neon-lime mb-1">{totalPoints}</div>
+              <div className="text-sm text-muted-foreground">CHAOS POINTS</div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-bold text-neon-cyan mb-1">{earnedRewards.length}</div>
+              <div className="text-sm text-muted-foreground">ROOMS COMPLETE</div>
+            </div>
+          </div>
 
           <div className="max-w-2xl mx-auto">
             <div className="flex justify-between items-center mb-2">
@@ -104,6 +117,11 @@ export default function Home() {
                       <div className="text-sm text-muted-foreground">
                         {room.tasks.filter(t => t.completed).length}/{room.tasks.length}
                       </div>
+                      {isComplete && (
+                        <div className="text-xs text-accent font-bold mt-1">
+                          +{room.reward.points}pts
+                        </div>
+                      )}
                     </div>
                   </div>
 

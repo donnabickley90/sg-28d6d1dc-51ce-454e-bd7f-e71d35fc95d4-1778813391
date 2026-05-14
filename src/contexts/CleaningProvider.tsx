@@ -1,16 +1,23 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
-interface Task {
+export interface Task {
   id: string;
   text: string;
   completed: boolean;
 }
 
-interface Room {
+export interface Reward {
+  message: string;
+  points: number;
+  celebration: string;
+}
+
+export interface Room {
   id: string;
   name: string;
   emoji: string;
   tasks: Task[];
+  reward: Reward;
 }
 
 interface CleaningContextType {
@@ -18,9 +25,12 @@ interface CleaningContextType {
   updateTask: (roomId: string, taskId: string, completed: boolean) => void;
   addTask: (roomId: string, text: string) => void;
   deleteTask: (roomId: string, taskId: string) => void;
-  editTask: (roomId: string, taskId: string, text: string) => void;
+  editTask: (roomId: string, taskId: string, newText: string) => void;
   getProgress: (roomId: string) => number;
   getOverallProgress: () => number;
+  getTotalPoints: () => number;
+  getEarnedRewards: () => Array<{ roomId: string; roomName: string; reward: Reward }>;
+  updateReward: (roomId: string, reward: Reward) => void;
 }
 
 const CleaningContext = createContext<CleaningContextType | undefined>(undefined);
@@ -30,6 +40,11 @@ const defaultRooms: Room[] = [
     id: "master-bedroom",
     name: "Master Bedroom",
     emoji: "🛏️",
+    reward: {
+      message: "Master bedroom is pristine! Time to lounge!",
+      points: 150,
+      celebration: "✨"
+    },
     tasks: [
       { id: "mb-1", text: "Strip and wash all bedding", completed: false },
       { id: "mb-2", text: "Vacuum under the bed", completed: false },
@@ -45,6 +60,11 @@ const defaultRooms: Room[] = [
     id: "wardrobe",
     name: "Wardrobe",
     emoji: "👔",
+    reward: {
+      message: "Fashion chaos conquered! You're a style icon!",
+      points: 120,
+      celebration: "👗"
+    },
     tasks: [
       { id: "wr-1", text: "Sort through clothes - donate/discard", completed: false },
       { id: "wr-2", text: "Vacuum closet floor", completed: false },
@@ -59,6 +79,11 @@ const defaultRooms: Room[] = [
     id: "master-bathroom",
     name: "Master Bathroom",
     emoji: "🚿",
+    reward: {
+      message: "Sparkling clean! Spa day unlocked!",
+      points: 180,
+      celebration: "🧖"
+    },
     tasks: [
       { id: "mbath-1", text: "Scrub shower/tub and grout", completed: false },
       { id: "mbath-2", text: "Clean toilet thoroughly", completed: false },
@@ -75,6 +100,11 @@ const defaultRooms: Room[] = [
     id: "master-toilet",
     name: "Master Toilet",
     emoji: "🚽",
+    reward: {
+      message: "Throne room restored! Royal treatment awaits!",
+      points: 80,
+      celebration: "👑"
+    },
     tasks: [
       { id: "mt-1", text: "Deep clean toilet bowl", completed: false },
       { id: "mt-2", text: "Scrub toilet exterior and base", completed: false },
@@ -88,6 +118,11 @@ const defaultRooms: Room[] = [
     id: "reading-room",
     name: "Reading Room",
     emoji: "📚",
+    reward: {
+      message: "Literary sanctuary achieved! Time for a book!",
+      points: 120,
+      celebration: "📖"
+    },
     tasks: [
       { id: "rr-1", text: "Dust all bookshelves", completed: false },
       { id: "rr-2", text: "Organize books", completed: false },
@@ -102,6 +137,11 @@ const defaultRooms: Room[] = [
     id: "whiskey-room",
     name: "Whiskey Room",
     emoji: "🥃",
+    reward: {
+      message: "Distillery-level clean! Pour yourself a reward!",
+      points: 130,
+      celebration: "🥃"
+    },
     tasks: [
       { id: "whr-1", text: "Dust all bottles and shelves", completed: false },
       { id: "whr-2", text: "Polish glassware", completed: false },
@@ -116,6 +156,11 @@ const defaultRooms: Room[] = [
     id: "makeup-area",
     name: "Makeup Area",
     emoji: "💄",
+    reward: {
+      message: "Beauty station perfected! Glow up time!",
+      points: 110,
+      celebration: "💅"
+    },
     tasks: [
       { id: "ma-1", text: "Sort through makeup - discard expired items", completed: false },
       { id: "ma-2", text: "Clean makeup brushes", completed: false },
@@ -130,6 +175,11 @@ const defaultRooms: Room[] = [
     id: "kitchen",
     name: "Kitchen",
     emoji: "🍳",
+    reward: {
+      message: "Chef's kitchen complete! Masterpiece meal unlocked!",
+      points: 200,
+      celebration: "👨‍🍳"
+    },
     tasks: [
       { id: "k-1", text: "Clean out and organize fridge", completed: false },
       { id: "k-2", text: "Clean oven and stovetop", completed: false },
@@ -148,6 +198,11 @@ const defaultRooms: Room[] = [
     id: "spare-bathroom",
     name: "Spare Bathroom",
     emoji: "🛁",
+    reward: {
+      message: "Guest-ready perfection! VIP treatment ready!",
+      points: 140,
+      celebration: "✨"
+    },
     tasks: [
       { id: "sbath-1", text: "Scrub shower/tub", completed: false },
       { id: "sbath-2", text: "Clean toilet", completed: false },
@@ -162,6 +217,11 @@ const defaultRooms: Room[] = [
     id: "spare-toilet-1",
     name: "Spare Toilet 1",
     emoji: "🚽",
+    reward: {
+      message: "Guest throne #1 gleaming! Royalty approved!",
+      points: 70,
+      celebration: "✨"
+    },
     tasks: [
       { id: "st1-1", text: "Deep clean toilet", completed: false },
       { id: "st1-2", text: "Clean sink", completed: false },
@@ -174,6 +234,11 @@ const defaultRooms: Room[] = [
     id: "spare-toilet-2",
     name: "Spare Toilet 2",
     emoji: "🚽",
+    reward: {
+      message: "Guest throne #2 sparkling! Double royalty!",
+      points: 70,
+      celebration: "✨"
+    },
     tasks: [
       { id: "st2-1", text: "Deep clean toilet", completed: false },
       { id: "st2-2", text: "Clean sink", completed: false },
@@ -186,6 +251,11 @@ const defaultRooms: Room[] = [
     id: "laundry",
     name: "Laundry",
     emoji: "🧺",
+    reward: {
+      message: "Laundry mastery! Fresh everything unlocked!",
+      points: 100,
+      celebration: "🧼"
+    },
     tasks: [
       { id: "l-1", text: "Clean washing machine drum and seals", completed: false },
       { id: "l-2", text: "Clean dryer lint trap and vent", completed: false },
@@ -199,6 +269,11 @@ const defaultRooms: Room[] = [
     id: "lounge-room",
     name: "Lounge Room",
     emoji: "🛋️",
+    reward: {
+      message: "Lounge paradise ready! Netflix time earned!",
+      points: 160,
+      celebration: "🎬"
+    },
     tasks: [
       { id: "lr-1", text: "Vacuum all furniture", completed: false },
       { id: "lr-2", text: "Dust all surfaces", completed: false },
@@ -214,6 +289,11 @@ const defaultRooms: Room[] = [
     id: "dining-area",
     name: "Dining Area",
     emoji: "🍽️",
+    reward: {
+      message: "Feast-ready elegance! Dinner party approved!",
+      points: 130,
+      celebration: "🍷"
+    },
     tasks: [
       { id: "d-1", text: "Wipe down dining table", completed: false },
       { id: "d-2", text: "Clean chairs thoroughly", completed: false },
@@ -228,6 +308,11 @@ const defaultRooms: Room[] = [
     id: "mud-room",
     name: "Mud Room",
     emoji: "👢",
+    reward: {
+      message: "Chaos contained! Entry system perfected!",
+      points: 90,
+      celebration: "🧹"
+    },
     tasks: [
       { id: "mr-1", text: "Organize shoes and boots", completed: false },
       { id: "mr-2", text: "Sort through coats and jackets", completed: false },
@@ -241,6 +326,11 @@ const defaultRooms: Room[] = [
     id: "entry",
     name: "Entry",
     emoji: "🚪",
+    reward: {
+      message: "First impression perfected! Welcome home!",
+      points: 80,
+      celebration: "🏠"
+    },
     tasks: [
       { id: "e-1", text: "Clean front door inside and out", completed: false },
       { id: "e-2", text: "Wipe down entry table/console", completed: false },
@@ -254,6 +344,11 @@ const defaultRooms: Room[] = [
     id: "snake-enclosure-1",
     name: "Snake Enclosure 1",
     emoji: "🐍",
+    reward: {
+      message: "Serpent sanctuary secured! Danger noodle happy!",
+      points: 150,
+      celebration: "🐍"
+    },
     tasks: [
       { id: "se1-1", text: "Remove snake to secure location", completed: false },
       { id: "se1-2", text: "Remove all substrate", completed: false },
@@ -270,6 +365,11 @@ const defaultRooms: Room[] = [
     id: "snake-enclosure-2",
     name: "Snake Enclosure 2",
     emoji: "🐍",
+    reward: {
+      message: "Enclosure #2 excellence! Scale baby approved!",
+      points: 150,
+      celebration: "🐍"
+    },
     tasks: [
       { id: "se2-1", text: "Remove snake to secure location", completed: false },
       { id: "se2-2", text: "Remove all substrate", completed: false },
@@ -286,6 +386,11 @@ const defaultRooms: Room[] = [
     id: "snake-enclosure-3",
     name: "Snake Enclosure 3",
     emoji: "🐍",
+    reward: {
+      message: "Triple threat complete! All noodles living luxury!",
+      points: 150,
+      celebration: "🐍"
+    },
     tasks: [
       { id: "se3-1", text: "Remove snake to secure location", completed: false },
       { id: "se3-2", text: "Remove all substrate", completed: false },
@@ -302,6 +407,11 @@ const defaultRooms: Room[] = [
     id: "cat-room",
     name: "Cat Room",
     emoji: "🐱",
+    reward: {
+      message: "Purr-fection achieved! Kitten overlord pleased!",
+      points: 170,
+      celebration: "😻"
+    },
     tasks: [
       { id: "cr-1", text: "Scoop and clean all litter boxes thoroughly", completed: false },
       { id: "cr-2", text: "Vacuum cat trees and scratching posts", completed: false },
@@ -318,6 +428,11 @@ const defaultRooms: Room[] = [
     id: "dog-room",
     name: "Dog Room",
     emoji: "🐕",
+    reward: {
+      message: "Good human! Pupper paradise unlocked!",
+      points: 170,
+      celebration: "🦴"
+    },
     tasks: [
       { id: "dr-1", text: "Wash all dog beds and blankets", completed: false },
       { id: "dr-2", text: "Clean food and water bowls", completed: false },
@@ -398,14 +513,14 @@ export function CleaningProvider({ children }: { children: ReactNode }) {
     );
   };
 
-  const editTask = (roomId: string, taskId: string, text: string) => {
+  const editTask = (roomId: string, taskId: string, newText: string) => {
     setRooms((prev) =>
       prev.map((room) =>
         room.id === roomId
           ? {
               ...room,
               tasks: room.tasks.map((task) =>
-                task.id === taskId ? { ...task, text } : task
+                task.id === taskId ? { ...task, text: newText } : task
               ),
             }
           : room
@@ -420,14 +535,37 @@ export function CleaningProvider({ children }: { children: ReactNode }) {
     return Math.round((completed / room.tasks.length) * 100);
   };
 
-  const getOverallProgress = (): number => {
+  const getOverallProgress = () => {
     if (rooms.length === 0) return 0;
-    const total = rooms.reduce((acc, room) => acc + room.tasks.length, 0);
-    const completed = rooms.reduce(
-      (acc, room) => acc + room.tasks.filter((t) => t.completed).length,
-      0
-    );
-    return Math.round((completed / total) * 100);
+    const totalProgress = rooms.reduce((sum, room) => sum + getProgress(room.id), 0);
+    return Math.round(totalProgress / rooms.length);
+  };
+
+  const getTotalPoints = () => {
+    return rooms.reduce((total, room) => {
+      const progress = getProgress(room.id);
+      return total + (progress === 100 ? room.reward.points : 0);
+    }, 0);
+  };
+
+  const getEarnedRewards = () => {
+    return rooms
+      .filter(room => getProgress(room.id) === 100)
+      .map(room => ({
+        roomId: room.id,
+        roomName: room.name,
+        reward: room.reward
+      }));
+  };
+
+  const updateReward = (roomId: string, reward: Reward) => {
+    setRooms(prevRooms => {
+      const updatedRooms = prevRooms.map(room =>
+        room.id === roomId ? { ...room, reward } : room
+      );
+      localStorage.setItem('kittens-cleaning-chaos', JSON.stringify(updatedRooms));
+      return updatedRooms;
+    });
   };
 
   return (
@@ -440,6 +578,9 @@ export function CleaningProvider({ children }: { children: ReactNode }) {
         editTask,
         getProgress,
         getOverallProgress,
+        getTotalPoints,
+        getEarnedRewards,
+        updateReward,
       }}
     >
       {children}
