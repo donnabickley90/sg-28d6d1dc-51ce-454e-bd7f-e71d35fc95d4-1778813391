@@ -99,6 +99,17 @@ export default function Home() {
     setCurrentQuote(newQuote);
   };
 
+  const pickRandomRoom = () => {
+    // Filter to incomplete rooms first, fallback to all rooms
+    const incompleteRooms = rooms.filter(room => getProgress(room.id) < 100);
+    const roomsToPickFrom = incompleteRooms.length > 0 ? incompleteRooms : rooms;
+    
+    if (roomsToPickFrom.length > 0) {
+      const randomRoom = roomsToPickFrom[Math.floor(Math.random() * roomsToPickFrom.length)];
+      window.location.href = `/room/${randomRoom.id}`;
+    }
+  };
+
   const totalTasks = rooms.reduce((acc, room) => acc + room.tasks.length, 0);
   const completedTasks = rooms.reduce(
     (acc, room) => acc + room.tasks.filter((t) => t.completed).length,
@@ -189,13 +200,28 @@ export default function Home() {
             <div className="flex justify-center">
               <Button
                 onClick={generateNewQuote}
-                className="bg-secondary hover:bg-secondary/80 text-black font-bold group">
-                
+                className="bg-secondary hover:bg-secondary/80 text-black font-bold group"
+              >
                 <RefreshCw className="w-4 h-4 mr-2 group-hover:rotate-180 transition-transform duration-500" />
                 New Wisdom
               </Button>
             </div>
           </div>
+        </div>
+
+        {/* Random Room Picker */}
+        <div className="max-w-md mx-auto mb-8 md:mb-12 px-2">
+          <Button
+            onClick={pickRandomRoom}
+            className="w-full bg-primary hover:bg-primary/80 text-black font-bold text-base md:text-lg py-6 group border-2 border-accent shadow-lg shadow-accent/30"
+          >
+            <Sparkles className="w-5 h-5 mr-2 group-hover:scale-125 transition-transform" />
+            Pick a Room for Me
+            <Sparkles className="w-5 h-5 ml-2 group-hover:scale-125 transition-transform" />
+          </Button>
+          <p className="text-center text-xs md:text-sm text-muted-foreground mt-2">
+            Can't decide? Let chaos choose! 🎲
+          </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
