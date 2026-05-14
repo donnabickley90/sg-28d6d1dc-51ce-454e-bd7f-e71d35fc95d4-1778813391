@@ -147,7 +147,7 @@ export default function Home() {
         {/* Kitten Motivation Quote Generator */}
         <div className="max-w-3xl mx-auto mb-8 md:mb-12 px-2">
           <div className="relative bg-card border-2 border-primary rounded-lg p-6 md:p-8 shadow-lg shadow-primary/20">
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent text-black px-4 py-1 rounded-full text-xs md:text-sm font-bold border-2 border-background">🐱 KITTEN WISDOM 🐱
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent text-black px-4 py-1 rounded-full text-xs md:text-sm font-bold border-2 border-background">🐱 GOOD GIRL CODE 🐱
 
             </div>
             
