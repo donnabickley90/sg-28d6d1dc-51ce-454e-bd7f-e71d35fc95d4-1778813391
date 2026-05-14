@@ -77,16 +77,11 @@ const SUPPLIES_KEY = 'cleaning-supplies';
 const DECLUTTER_KEY = 'declutter-challenge';
 const REPAIRS_KEY = 'home-repairs';
 
-const defaultRooms: Room[] = [
+const initialRooms: Room[] = [
   {
-    id: "master-bedroom",
-    name: "Master Bedroom",
-    emoji: "🛏️",
-    reward: {
-      message: "Master bedroom is pristine! Time to lounge!",
-      points: 150,
-      celebration: "✨"
-    },
+    id: 'master-bedroom',
+    name: "Owner's Nest",
+    emoji: '🛏️',
     tasks: [
       { id: "mb-1", text: "Strip and wash all bedding", completed: false },
       { id: "mb-2", text: "Vacuum under the bed", completed: false },
@@ -99,14 +94,9 @@ const defaultRooms: Room[] = [
     ]
   },
   {
-    id: "wardrobe",
-    name: "Wardrobe",
-    emoji: "👔",
-    reward: {
-      message: "Fashion chaos conquered! You're a style icon!",
-      points: 120,
-      celebration: "👗"
-    },
+    id: 'wardrobe',
+    name: "Dress-Up Den",
+    emoji: '👗',
     tasks: [
       { id: "wr-1", text: "Sort through clothes - donate/discard", completed: false },
       { id: "wr-2", text: "Vacuum closet floor", completed: false },
@@ -119,8 +109,8 @@ const defaultRooms: Room[] = [
   },
   {
     id: "master-bathroom",
-    name: "Master Bathroom",
-    emoji: "🚿",
+    name: "Steam Sanctuary",
+    emoji: '🛁',
     reward: {
       message: "Sparkling clean! Spa day unlocked!",
       points: 180,
@@ -140,13 +130,8 @@ const defaultRooms: Room[] = [
   },
   {
     id: "master-toilet",
-    name: "Master Toilet",
-    emoji: "🚽",
-    reward: {
-      message: "Throne room restored! Royal treatment awaits!",
-      points: 80,
-      celebration: "👑"
-    },
+    name: "Powder Paws",
+    emoji: '🚽',
     tasks: [
       { id: "mt-1", text: "Deep clean toilet bowl", completed: false },
       { id: "mt-2", text: "Scrub toilet exterior and base", completed: false },
@@ -158,13 +143,8 @@ const defaultRooms: Room[] = [
   },
   {
     id: "reading-room",
-    name: "Reading Room",
-    emoji: "📚",
-    reward: {
-      message: "Literary sanctuary achieved! Time for a book!",
-      points: 120,
-      celebration: "📖"
-    },
+    name: "Quiet Corner",
+    emoji: '📚',
     tasks: [
       { id: "rr-1", text: "Dust all bookshelves", completed: false },
       { id: "rr-2", text: "Organize books", completed: false },
@@ -177,13 +157,8 @@ const defaultRooms: Room[] = [
   },
   {
     id: "whiskey-room",
-    name: "Whiskey Room",
-    emoji: "🥃",
-    reward: {
-      message: "Distillery-level clean! Pour yourself a reward!",
-      points: 130,
-      celebration: "🥃"
-    },
+    name: "Aftercare Lounge",
+    emoji: '🥃',
     tasks: [
       { id: "whr-1", text: "Dust all bottles and shelves", completed: false },
       { id: "whr-2", text: "Polish glassware", completed: false },
@@ -196,13 +171,8 @@ const defaultRooms: Room[] = [
   },
   {
     id: "makeup-area",
-    name: "Makeup Area",
-    emoji: "💄",
-    reward: {
-      message: "Beauty station perfected! Glow up time!",
-      points: 110,
-      celebration: "💅"
-    },
+    name: "Pretty Station",
+    emoji: '💄',
     tasks: [
       { id: "ma-1", text: "Sort through makeup - discard expired items", completed: false },
       { id: "ma-2", text: "Clean makeup brushes", completed: false },
@@ -215,13 +185,8 @@ const defaultRooms: Room[] = [
   },
   {
     id: "kitchen",
-    name: "Kitchen",
-    emoji: "🍳",
-    reward: {
-      message: "Chef's kitchen complete! Masterpiece meal unlocked!",
-      points: 200,
-      celebration: "👨‍🍳"
-    },
+    name: "Feeding Station",
+    emoji: '🍳',
     tasks: [
       { id: "k-1", text: "Clean out and organize fridge", completed: false },
       { id: "k-2", text: "Clean oven and stovetop", completed: false },
@@ -237,14 +202,9 @@ const defaultRooms: Room[] = [
     ]
   },
   {
-    id: "butlers-pantry",
-    name: "Butler's Pantry",
-    emoji: "🍷",
-    reward: {
-      message: "Butler-worthy organization! Entertaining ready!",
-      points: 140,
-      celebration: "🎩"
-    },
+    id: 'butlers-pantry',
+    name: "Treat Vault",
+    emoji: '🍷',
     tasks: [
       { id: "bp-1", text: "Organize glassware and stemware", completed: false },
       { id: "bp-2", text: "Clean and polish serving pieces", completed: false },
@@ -258,13 +218,8 @@ const defaultRooms: Room[] = [
   },
   {
     id: "spare-bathroom",
-    name: "Spare Bathroom",
-    emoji: "🛁",
-    reward: {
-      message: "Guest-ready perfection! VIP treatment ready!",
-      points: 140,
-      celebration: "✨"
-    },
+    name: "Guest Grooming",
+    emoji: '🚿',
     tasks: [
       { id: "sbath-1", text: "Scrub shower/tub", completed: false },
       { id: "sbath-2", text: "Clean toilet", completed: false },
@@ -277,13 +232,8 @@ const defaultRooms: Room[] = [
   },
   {
     id: "spare-toilet-1",
-    name: "Spare Toilet 1",
-    emoji: "🚽",
-    reward: {
-      message: "Guest throne #1 gleaming! Royalty approved!",
-      points: 70,
-      celebration: "✨"
-    },
+    name: "Powder Room I",
+    emoji: '🚽',
     tasks: [
       { id: "st1-1", text: "Deep clean toilet", completed: false },
       { id: "st1-2", text: "Clean sink", completed: false },
@@ -294,13 +244,8 @@ const defaultRooms: Room[] = [
   },
   {
     id: "spare-toilet-2",
-    name: "Spare Toilet 2",
-    emoji: "🚽",
-    reward: {
-      message: "Guest throne #2 sparkling! Double royalty!",
-      points: 70,
-      celebration: "✨"
-    },
+    name: "Powder Room II",
+    emoji: '🚽',
     tasks: [
       { id: "st2-1", text: "Deep clean toilet", completed: false },
       { id: "st2-2", text: "Clean sink", completed: false },
@@ -311,13 +256,8 @@ const defaultRooms: Room[] = [
   },
   {
     id: "laundry",
-    name: "Laundry",
-    emoji: "🧺",
-    reward: {
-      message: "Laundry mastery! Fresh everything unlocked!",
-      points: 100,
-      celebration: "🧼"
-    },
+    name: "Sock Prison",
+    emoji: '🧺',
     tasks: [
       { id: "l-1", text: "Clean washing machine drum and seals", completed: false },
       { id: "l-2", text: "Clean dryer lint trap and vent", completed: false },
@@ -329,13 +269,8 @@ const defaultRooms: Room[] = [
   },
   {
     id: "lounge-room",
-    name: "Lounge Room",
-    emoji: "🛋️",
-    reward: {
-      message: "Lounge paradise ready! Netflix time earned!",
-      points: 160,
-      celebration: "🎬"
-    },
+    name: "Snuggle Lounge",
+    emoji: '🛋️',
     tasks: [
       { id: "lr-1", text: "Vacuum all furniture", completed: false },
       { id: "lr-2", text: "Dust all surfaces", completed: false },
@@ -349,13 +284,8 @@ const defaultRooms: Room[] = [
   },
   {
     id: "dining-area",
-    name: "Dining Area",
-    emoji: "🍽️",
-    reward: {
-      message: "Feast-ready elegance! Dinner party approved!",
-      points: 130,
-      celebration: "🍷"
-    },
+    name: "Feasting Room",
+    emoji: '🍽️',
     tasks: [
       { id: "d-1", text: "Wipe down dining table", completed: false },
       { id: "d-2", text: "Clean chairs thoroughly", completed: false },
@@ -368,13 +298,8 @@ const defaultRooms: Room[] = [
   },
   {
     id: "mud-room",
-    name: "Mud Room",
-    emoji: "👢",
-    reward: {
-      message: "Chaos contained! Entry system perfected!",
-      points: 90,
-      celebration: "🧹"
-    },
+    name: "Paw Cleanup Zone",
+    emoji: '👢',
     tasks: [
       { id: "mr-1", text: "Organize shoes and boots", completed: false },
       { id: "mr-2", text: "Sort through coats and jackets", completed: false },
@@ -385,14 +310,9 @@ const defaultRooms: Room[] = [
     ]
   },
   {
-    id: "entry",
-    name: "Entry",
-    emoji: "🚪",
-    reward: {
-      message: "First impression perfected! Welcome home!",
-      points: 80,
-      celebration: "🏠"
-    },
+    id: 'entry',
+    name: "Threshold",
+    emoji: '🚪',
     tasks: [
       { id: "e-1", text: "Clean front door inside and out", completed: false },
       { id: "e-2", text: "Wipe down entry table/console", completed: false },
@@ -404,13 +324,8 @@ const defaultRooms: Room[] = [
   },
   {
     id: "snake-enclosure-1",
-    name: "Snake Enclosure 1",
-    emoji: "🐍",
-    reward: {
-      message: "Serpent sanctuary secured! Danger noodle happy!",
-      points: 150,
-      celebration: "🐍"
-    },
+    name: "Crowleys Corner",
+    emoji: '🐍',
     tasks: [
       { id: "se1-1", text: "Remove snake to secure location", completed: false },
       { id: "se1-2", text: "Remove all substrate", completed: false },
@@ -424,14 +339,9 @@ const defaultRooms: Room[] = [
     ]
   },
   {
-    id: "snake-enclosure-2",
-    name: "Snake Enclosure 2",
-    emoji: "🐍",
-    reward: {
-      message: "Enclosure #2 excellence! Scale baby approved!",
-      points: 150,
-      celebration: "🐍"
-    },
+    id: 'snake-enclosure-2',
+    name: "Amrens Asylum II",
+    emoji: '🐍',
     tasks: [
       { id: "se2-1", text: "Remove snake to secure location", completed: false },
       { id: "se2-2", text: "Remove all substrate", completed: false },
@@ -446,13 +356,8 @@ const defaultRooms: Room[] = [
   },
   {
     id: "snake-enclosure-3",
-    name: "Snake Enclosure 3",
-    emoji: "🐍",
-    reward: {
-      message: "Triple threat complete! All noodles living luxury!",
-      points: 150,
-      celebration: "🐍"
-    },
+    name: "Morrigans Manor III",
+    emoji: '🐍',
     tasks: [
       { id: "se3-1", text: "Remove snake to secure location", completed: false },
       { id: "se3-2", text: "Remove all substrate", completed: false },
@@ -467,13 +372,8 @@ const defaultRooms: Room[] = [
   },
   {
     id: "cat-room",
-    name: "Cat Room",
-    emoji: "🐱",
-    reward: {
-      message: "Purr-fection achieved! Kitten overlord pleased!",
-      points: 170,
-      celebration: "😻"
-    },
+    name: "Lucifers Lair",
+    emoji: '🐱',
     tasks: [
       { id: "cr-1", text: "Scoop and clean all litter boxes thoroughly", completed: false },
       { id: "cr-2", text: "Vacuum cat trees and scratching posts", completed: false },
@@ -487,14 +387,9 @@ const defaultRooms: Room[] = [
     ]
   },
   {
-    id: "dog-room",
-    name: "Dog Room",
-    emoji: "🐕",
-    reward: {
-      message: "Good human! Pupper paradise unlocked!",
-      points: 170,
-      celebration: "🦴"
-    },
+    id: 'dog-room',
+    name: "Arlos Alcove",
+    emoji: '🐕',
     tasks: [
       { id: "dr-1", text: "Wash all dog beds and blankets", completed: false },
       { id: "dr-2", text: "Clean food and water bowls", completed: false },
@@ -779,8 +674,8 @@ export function CleaningProvider({ children }: { children: ReactNode }) {
     if (stored) {
       setRooms(JSON.parse(stored));
     } else {
-      setRooms(defaultRooms);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultRooms));
+      setRooms(initialRooms);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(initialRooms));
     }
 
     const storedSupplies = localStorage.getItem(SUPPLIES_KEY);
