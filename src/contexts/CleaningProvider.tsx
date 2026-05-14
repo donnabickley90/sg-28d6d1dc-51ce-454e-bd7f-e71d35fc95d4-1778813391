@@ -82,6 +82,7 @@ const initialRooms: Room[] = [
     id: 'master-bedroom',
     name: "Owner's Nest",
     emoji: '🛏️',
+    reward: { message: "Good girl! So proud of you!", points: 100, celebration: "🐾" },
     tasks: [
       { id: "mb-1", text: "Strip and wash all bedding", completed: false },
       { id: "mb-2", text: "Vacuum under the bed", completed: false },
@@ -97,6 +98,7 @@ const initialRooms: Room[] = [
     id: 'wardrobe',
     name: "Dress-Up Den",
     emoji: '👗',
+    reward: { message: "Good girl! So proud of you!", points: 100, celebration: "🐾" },
     tasks: [
       { id: "wr-1", text: "Sort through clothes - donate/discard", completed: false },
       { id: "wr-2", text: "Vacuum closet floor", completed: false },
@@ -132,6 +134,7 @@ const initialRooms: Room[] = [
     id: "master-toilet",
     name: "Powder Paws",
     emoji: '🚽',
+    reward: { message: "Good girl! So proud of you!", points: 100, celebration: "🐾" },
     tasks: [
       { id: "mt-1", text: "Deep clean toilet bowl", completed: false },
       { id: "mt-2", text: "Scrub toilet exterior and base", completed: false },
@@ -145,6 +148,7 @@ const initialRooms: Room[] = [
     id: "reading-room",
     name: "Quiet Corner",
     emoji: '📚',
+    reward: { message: "Good girl! So proud of you!", points: 100, celebration: "🐾" },
     tasks: [
       { id: "rr-1", text: "Dust all bookshelves", completed: false },
       { id: "rr-2", text: "Organize books", completed: false },
@@ -159,6 +163,7 @@ const initialRooms: Room[] = [
     id: "whiskey-room",
     name: "Aftercare Lounge",
     emoji: '🥃',
+    reward: { message: "Good girl! So proud of you!", points: 100, celebration: "🐾" },
     tasks: [
       { id: "whr-1", text: "Dust all bottles and shelves", completed: false },
       { id: "whr-2", text: "Polish glassware", completed: false },
@@ -173,6 +178,7 @@ const initialRooms: Room[] = [
     id: "makeup-area",
     name: "Pretty Station",
     emoji: '💄',
+    reward: { message: "Good girl! So proud of you!", points: 100, celebration: "🐾" },
     tasks: [
       { id: "ma-1", text: "Sort through makeup - discard expired items", completed: false },
       { id: "ma-2", text: "Clean makeup brushes", completed: false },
@@ -187,6 +193,7 @@ const initialRooms: Room[] = [
     id: "kitchen",
     name: "Feeding Station",
     emoji: '🍳',
+    reward: { message: "Good girl! So proud of you!", points: 100, celebration: "🐾" },
     tasks: [
       { id: "k-1", text: "Clean out and organize fridge", completed: false },
       { id: "k-2", text: "Clean oven and stovetop", completed: false },
@@ -205,6 +212,7 @@ const initialRooms: Room[] = [
     id: 'butlers-pantry',
     name: "Treat Vault",
     emoji: '🍷',
+    reward: { message: "Good girl! So proud of you!", points: 100, celebration: "🐾" },
     tasks: [
       { id: "bp-1", text: "Organize glassware and stemware", completed: false },
       { id: "bp-2", text: "Clean and polish serving pieces", completed: false },
@@ -220,6 +228,7 @@ const initialRooms: Room[] = [
     id: "spare-bathroom",
     name: "Guest Grooming",
     emoji: '🚿',
+    reward: { message: "Good girl! So proud of you!", points: 100, celebration: "🐾" },
     tasks: [
       { id: "sbath-1", text: "Scrub shower/tub", completed: false },
       { id: "sbath-2", text: "Clean toilet", completed: false },
@@ -234,6 +243,7 @@ const initialRooms: Room[] = [
     id: "spare-toilet-1",
     name: "Powder Room I",
     emoji: '🚽',
+    reward: { message: "Good girl! So proud of you!", points: 100, celebration: "🐾" },
     tasks: [
       { id: "st1-1", text: "Deep clean toilet", completed: false },
       { id: "st1-2", text: "Clean sink", completed: false },
@@ -246,6 +256,7 @@ const initialRooms: Room[] = [
     id: "spare-toilet-2",
     name: "Powder Room II",
     emoji: '🚽',
+    reward: { message: "Good girl! So proud of you!", points: 100, celebration: "🐾" },
     tasks: [
       { id: "st2-1", text: "Deep clean toilet", completed: false },
       { id: "st2-2", text: "Clean sink", completed: false },
@@ -258,6 +269,7 @@ const initialRooms: Room[] = [
     id: "laundry",
     name: "Sock Prison",
     emoji: '🧺',
+    reward: { message: "Good girl! So proud of you!", points: 100, celebration: "🐾" },
     tasks: [
       { id: "l-1", text: "Clean washing machine drum and seals", completed: false },
       { id: "l-2", text: "Clean dryer lint trap and vent", completed: false },
@@ -271,6 +283,7 @@ const initialRooms: Room[] = [
     id: "lounge-room",
     name: "Snuggle Lounge",
     emoji: '🛋️',
+    reward: { message: "Good girl! So proud of you!", points: 100, celebration: "🐾" },
     tasks: [
       { id: "lr-1", text: "Vacuum all furniture", completed: false },
       { id: "lr-2", text: "Dust all surfaces", completed: false },
@@ -286,6 +299,7 @@ const initialRooms: Room[] = [
     id: "dining-area",
     name: "Feasting Room",
     emoji: '🍽️',
+    reward: { message: "Good girl! So proud of you!", points: 100, celebration: "🐾" },
     tasks: [
       { id: "d-1", text: "Wipe down dining table", completed: false },
       { id: "d-2", text: "Clean chairs thoroughly", completed: false },
@@ -300,6 +314,7 @@ const initialRooms: Room[] = [
     id: "mud-room",
     name: "Paw Cleanup Zone",
     emoji: '👢',
+    reward: { message: "Good girl! So proud of you!", points: 100, celebration: "🐾" },
     tasks: [
       { id: "mr-1", text: "Organize shoes and boots", completed: false },
       { id: "mr-2", text: "Sort through coats and jackets", completed: false },
@@ -313,6 +328,7 @@ const initialRooms: Room[] = [
     id: 'entry',
     name: "Threshold",
     emoji: '🚪',
+    reward: { message: "Good girl! So proud of you!", points: 100, celebration: "🐾" },
     tasks: [
       { id: "e-1", text: "Clean front door inside and out", completed: false },
       { id: "e-2", text: "Wipe down entry table/console", completed: false },
@@ -326,6 +342,7 @@ const initialRooms: Room[] = [
     id: "snake-enclosure-1",
     name: "Crowleys Corner",
     emoji: '🐍',
+    reward: { message: "Good girl! So proud of you!", points: 100, celebration: "🐾" },
     tasks: [
       { id: "se1-1", text: "Remove snake to secure location", completed: false },
       { id: "se1-2", text: "Remove all substrate", completed: false },
@@ -342,6 +359,7 @@ const initialRooms: Room[] = [
     id: 'snake-enclosure-2',
     name: "Amrens Asylum II",
     emoji: '🐍',
+    reward: { message: "Good girl! So proud of you!", points: 100, celebration: "🐾" },
     tasks: [
       { id: "se2-1", text: "Remove snake to secure location", completed: false },
       { id: "se2-2", text: "Remove all substrate", completed: false },
@@ -358,6 +376,7 @@ const initialRooms: Room[] = [
     id: "snake-enclosure-3",
     name: "Morrigans Manor III",
     emoji: '🐍',
+    reward: { message: "Good girl! So proud of you!", points: 100, celebration: "🐾" },
     tasks: [
       { id: "se3-1", text: "Remove snake to secure location", completed: false },
       { id: "se3-2", text: "Remove all substrate", completed: false },
@@ -374,6 +393,7 @@ const initialRooms: Room[] = [
     id: "cat-room",
     name: "Lucifers Lair",
     emoji: '🐱',
+    reward: { message: "Good girl! So proud of you!", points: 100, celebration: "🐾" },
     tasks: [
       { id: "cr-1", text: "Scoop and clean all litter boxes thoroughly", completed: false },
       { id: "cr-2", text: "Vacuum cat trees and scratching posts", completed: false },
@@ -390,6 +410,7 @@ const initialRooms: Room[] = [
     id: 'dog-room',
     name: "Arlos Alcove",
     emoji: '🐕',
+    reward: { message: "Good girl! So proud of you!", points: 100, celebration: "🐾" },
     tasks: [
       { id: "dr-1", text: "Wash all dog beds and blankets", completed: false },
       { id: "dr-2", text: "Clean food and water bowls", completed: false },
@@ -672,7 +693,12 @@ export function CleaningProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
-      setRooms(JSON.parse(stored));
+      const parsed = JSON.parse(stored);
+      const migrated = parsed.map((r: any) => ({
+        ...r,
+        reward: r.reward || { message: "Good girl! So proud of you!", points: 100, celebration: "🐾" }
+      }));
+      setRooms(migrated);
     } else {
       setRooms(initialRooms);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(initialRooms));
