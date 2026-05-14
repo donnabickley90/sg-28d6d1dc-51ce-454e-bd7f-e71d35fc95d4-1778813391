@@ -1,12 +1,40 @@
 import { useCleaning } from '@/contexts/CleaningProvider';
 import { Navigation } from '@/components/Navigation';
-import { Check, Calendar, Trophy } from 'lucide-react';
+import { useState } from 'react';
+import { Check, Calendar, Trophy, Edit2, X, Save } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 
 export default function DeclutterPage() {
-  const { declutterDays, updateDeclutterDay } = useCleaning();
+  const { declutterDays, updateDeclutterDay, editDeclutterDay } = useCleaning();
+  const [editingDay, setEditingDay] = useState<number | null>(null);
+  const [editTitle, setEditTitle] = useState('');
+  const [editDescription, setEditDescription] = useState('');
 
   const completedCount = declutterDays.filter(d => d.completed).length;
   const progress = Math.round((completedCount / 30) * 100);
+
+  const handleStartEdit = (day: number, currentTitle: string, currentDescription: string) => {
+    setEditingDay(day);
+    setEditTitle(currentTitle);
+    setEditDescription(currentDescription);
+  };
+
+  const handleSaveEdit = () => {
+    if (editingDay && editTitle.trim()) {
+      editDeclutterDay(editingDay, editTitle.trim(), editDescription.trim());
+      setEditingDay(null);
+      setEditTitle('');
+      setEditDescription('');
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingDay(null);
+    setEditTitle('');
+    setEditDescription('');
+  };
 
   return (
     <div className="min-h-screen bg-background pb-24 md:pb-8 md:pt-20">
@@ -48,54 +76,106 @@ export default function DeclutterPage() {
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {declutterDays.map((day) => (
-            <div
-              key={day.day}
-              className={`
-                group bg-card rounded-lg p-5 border-2 transition-all cursor-pointer
-                ${day.completed 
-                  ? 'border-accent/50 bg-accent/5' 
-                  : 'border-muted hover:border-secondary'
-                }
-              `}
-              onClick={() => updateDeclutterDay(day.day, !day.completed)}
-            >
-              <div className="flex items-start gap-3">
-                <button
-                  className={`
-                    mt-1 w-7 h-7 rounded border-2 flex items-center justify-center flex-shrink-0
-                    transition-all duration-300
-                    ${day.completed
-                      ? 'bg-accent border-accent'
-                      : 'border-secondary group-hover:border-primary group-hover:bg-primary/10'
-                    }
-                  `}
-                >
-                  {day.completed && <Check className="w-5 h-5 text-black" />}
-                </button>
+          {declutterDays.map((day) => {
+            const isEditing = editingDay === day.day;
 
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className={`
-                      text-sm font-bold px-2 py-1 rounded
-                      ${day.completed ? 'bg-accent text-black' : 'bg-primary text-white'}
-                    `}>
-                      Day {day.day}
-                    </span>
+            return (
+              <div
+                key={day.day}
+                className={`
+                  group bg-card rounded-lg p-5 border-2 transition-all
+                  ${day.completed 
+                    ? 'border-accent/50 bg-accent/5' 
+                    : 'border-muted hover:border-secondary'
+                  }
+                `}
+              >
+                {isEditing ? (
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-bold px-2 py-1 rounded bg-primary text-white">
+                        Day {day.day}
+                      </span>
+                    </div>
+                    <Input
+                      value={editTitle}
+                      onChange={(e) => setEditTitle(e.target.value)}
+                      placeholder="Challenge title"
+                      className="bg-background border-secondary"
+                    />
+                    <Textarea
+                      value={editDescription}
+                      onChange={(e) => setEditDescription(e.target.value)}
+                      placeholder="Description"
+                      className="bg-background border-secondary resize-none"
+                      rows={2}
+                    />
+                    <div className="flex gap-2">
+                      <Button
+                        size="sm"
+                        onClick={handleSaveEdit}
+                        className="flex-1 bg-accent text-black hover:bg-accent/80"
+                      >
+                        <Save className="w-4 h-4 mr-1" />
+                        Save
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={handleCancelEdit}
+                        className="border-destructive text-destructive"
+                      >
+                        <X className="w-4 h-4" />
+                      </Button>
+                    </div>
                   </div>
-                  <h3 className={`
-                    text-lg font-display mb-1 transition-all
-                    ${day.completed ? 'line-through text-muted-foreground' : 'text-foreground'}
-                  `}>
-                    {day.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    {day.description}
-                  </p>
-                </div>
+                ) : (
+                  <div className="flex items-start gap-3">
+                    <button
+                      onClick={() => updateDeclutterDay(day.day, !day.completed)}
+                      className={`
+                        mt-1 w-7 h-7 rounded border-2 flex items-center justify-center flex-shrink-0
+                        transition-all duration-300
+                        ${day.completed
+                          ? 'bg-accent border-accent'
+                          : 'border-secondary group-hover:border-primary group-hover:bg-primary/10'
+                        }
+                      `}
+                    >
+                      {day.completed && <Check className="w-5 h-5 text-black" />}
+                    </button>
+
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className={`
+                          text-sm font-bold px-2 py-1 rounded
+                          ${day.completed ? 'bg-accent text-black' : 'bg-primary text-white'}
+                        `}>
+                          Day {day.day}
+                        </span>
+                      </div>
+                      <h3 className={`
+                        text-lg font-display mb-1 transition-all
+                        ${day.completed ? 'line-through text-muted-foreground' : 'text-foreground'}
+                      `}>
+                        {day.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        {day.description}
+                      </p>
+                    </div>
+
+                    <button
+                      onClick={() => handleStartEdit(day.day, day.title, day.description)}
+                      className="opacity-0 group-hover:opacity-100 transition-opacity p-2 hover:bg-secondary/20 rounded"
+                    >
+                      <Edit2 className="w-4 h-4 text-secondary" />
+                    </button>
+                  </div>
+                )}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>

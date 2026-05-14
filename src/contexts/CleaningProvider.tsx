@@ -64,6 +64,7 @@ interface CleaningContextType {
   updateSupply: (id: string, updates: Partial<Supply>) => void;
   deleteSupply: (id: string) => void;
   updateDeclutterDay: (day: number, completed: boolean) => void;
+  editDeclutterDay: (day: number, title: string, description: string) => void;
   addRepair: (title: string, description: string, roomId: string, priority: RepairItem['priority']) => void;
   updateRepair: (id: string, updates: Partial<RepairItem>) => void;
   deleteRepair: (id: string) => void;
@@ -506,6 +507,28 @@ const defaultRooms: Room[] = [
       { id: "dr-9", text: "Empty and clean trash (waste bags)", completed: false },
     ]
   },
+  {
+    id: "tubs",
+    name: "Tubs",
+    emoji: "🧊",
+    reward: {
+      message: "Chaos tubs conquered! Storage zen achieved!",
+      points: 200,
+      celebration: "📦"
+    },
+    tasks: [
+      { id: "tub-1", text: "Sort through Tub 1 - keep/donate/toss", completed: false },
+      { id: "tub-2", text: "Sort through Tub 2 - keep/donate/toss", completed: false },
+      { id: "tub-3", text: "Sort through Tub 3 - keep/donate/toss", completed: false },
+      { id: "tub-4", text: "Sort through Tub 4 - keep/donate/toss", completed: false },
+      { id: "tub-5", text: "Sort through Tub 5 - keep/donate/toss", completed: false },
+      { id: "tub-6", text: "Sort through Tub 6 - keep/donate/toss", completed: false },
+      { id: "tub-7", text: "Sort through Tub 7 - keep/donate/toss", completed: false },
+      { id: "tub-8", text: "Sort through Tub 8 - keep/donate/toss", completed: false },
+      { id: "tub-9", text: "Sort through Tub 9 - keep/donate/toss", completed: false },
+      { id: "tub-10", text: "Sort through Tub 10 - keep/donate/toss", completed: false },
+    ]
+  },
 ];
 
 const defaultSupplies: Supply[] = [
@@ -749,6 +772,14 @@ export function CleaningProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const editDeclutterDay = (day: number, title: string, description: string) => {
+    setDeclutterDays(prev => {
+      const updated = prev.map(d => d.day === day ? { ...d, title, description } : d);
+      localStorage.setItem(DECLUTTER_KEY, JSON.stringify(updated));
+      return updated;
+    });
+  };
+
   const addRepair = (title: string, description: string, roomId: string, priority: RepairItem['priority']) => {
     const newRepair: RepairItem = {
       id: `r-${Date.now()}`,
@@ -803,6 +834,7 @@ export function CleaningProvider({ children }: { children: ReactNode }) {
         updateSupply,
         deleteSupply,
         updateDeclutterDay,
+        editDeclutterDay,
         addRepair,
         updateRepair,
         deleteRepair,
