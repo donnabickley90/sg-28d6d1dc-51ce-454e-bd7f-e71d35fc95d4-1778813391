@@ -598,19 +598,141 @@ const defaultRooms: Room[] = [
   },
 ];
 
-const defaultSupplies: Supply[] = [
-  { id: 's-1', name: 'All-Purpose Cleaner', quantity: '2 bottles', checked: false, category: 'cleaners' },
-  { id: 's-2', name: 'Glass Cleaner', quantity: '1 bottle', checked: false, category: 'cleaners' },
-  { id: 's-3', name: 'Bathroom Cleaner', quantity: '2 bottles', checked: false, category: 'cleaners' },
-  { id: 's-4', name: 'Floor Cleaner', quantity: '1 bottle', checked: false, category: 'cleaners' },
-  { id: 's-5', name: 'Disinfectant Spray', quantity: '2 bottles', checked: false, category: 'cleaners' },
-  { id: 's-6', name: 'Microfiber Cloths', quantity: '10 pack', checked: false, category: 'tools' },
-  { id: 's-7', name: 'Sponges', quantity: '6 pack', checked: false, category: 'tools' },
-  { id: 's-8', name: 'Paper Towels', quantity: '6 rolls', checked: false, category: 'tools' },
-  { id: 's-9', name: 'Trash Bags', quantity: '2 boxes', checked: false, category: 'supplies' },
-  { id: 's-10', name: 'Rubber Gloves', quantity: '2 pairs', checked: false, category: 'tools' },
-  { id: 's-11', name: 'Vacuum Bags/Filters', quantity: 'as needed', checked: false, category: 'supplies' },
-  { id: 's-12', name: 'Mop Head Refills', quantity: '2', checked: false, category: 'supplies' },
+const initialSupplies: SupplyItem[] = [
+  // General Surface Cleaners
+  { id: '1', name: 'All-purpose cleaner (spray or concentrate)', category: 'General Surface Cleaners', quantity: 1, checked: false },
+  { id: '2', name: 'Disinfectant spray or wipes', category: 'General Surface Cleaners', quantity: 1, checked: false },
+  { id: '3', name: 'Glass cleaner', category: 'General Surface Cleaners', quantity: 1, checked: false },
+  { id: '4', name: 'Bathroom cleaner', category: 'General Surface Cleaners', quantity: 1, checked: false },
+  { id: '5', name: 'Kitchen degreaser', category: 'General Surface Cleaners', quantity: 1, checked: false },
+  { id: '6', name: 'Floor cleaner', category: 'General Surface Cleaners', quantity: 1, checked: false },
+  { id: '7', name: 'Stainless steel cleaner', category: 'General Surface Cleaners', quantity: 1, checked: false },
+  { id: '8', name: 'White vinegar', category: 'General Surface Cleaners', quantity: 1, checked: false },
+  { id: '9', name: 'Baking soda', category: 'General Surface Cleaners', quantity: 1, checked: false },
+  { id: '10', name: 'Mold remover', category: 'General Surface Cleaners', quantity: 1, checked: false },
+  { id: '11', name: 'Wood polish or conditioner', category: 'General Surface Cleaners', quantity: 1, checked: false },
+  { id: '12', name: 'Carpet cleaner', category: 'General Surface Cleaners', quantity: 1, checked: false },
+  { id: '13', name: 'Air freshener or room spray', category: 'General Surface Cleaners', quantity: 1, checked: false },
+  { id: '14', name: 'Bissell shampoo vac liquid', category: 'General Surface Cleaners', quantity: 1, checked: false },
+
+  // Scrubbing & Washing Supplies
+  { id: '15', name: 'Dish soap', category: 'Scrubbing & Washing', quantity: 1, checked: false },
+  { id: '16', name: 'Laundry detergent', category: 'Scrubbing & Washing', quantity: 1, checked: false },
+  { id: '17', name: 'Fabric softener or dryer sheets', category: 'Scrubbing & Washing', quantity: 1, checked: false },
+  { id: '18', name: 'Laundry sanitizer', category: 'Scrubbing & Washing', quantity: 1, checked: false },
+  { id: '19', name: 'Laundry booster', category: 'Scrubbing & Washing', quantity: 1, checked: false },
+  { id: '20', name: 'Stain remover', category: 'Scrubbing & Washing', quantity: 1, checked: false },
+  { id: '21', name: 'Toilet bowl cleaner', category: 'Scrubbing & Washing', quantity: 1, checked: false },
+  { id: '22', name: 'Tub and tile cleaner', category: 'Scrubbing & Washing', quantity: 1, checked: false },
+  { id: '23', name: 'Shower cleaner spray', category: 'Scrubbing & Washing', quantity: 1, checked: false },
+  { id: '24', name: 'Upholstery cleaner', category: 'Scrubbing & Washing', quantity: 1, checked: false },
+  { id: '25', name: 'Fabric freshener spray', category: 'Scrubbing & Washing', quantity: 1, checked: false },
+
+  // Tools & Equipment
+  { id: '26', name: 'Microfiber cloths', category: 'Tools & Equipment', quantity: 1, checked: false },
+  { id: '27', name: 'Sponges and scrubbing pads', category: 'Tools & Equipment', quantity: 1, checked: false },
+  { id: '28', name: 'Scrub brushes (various sizes)', category: 'Tools & Equipment', quantity: 1, checked: false },
+  { id: '29', name: 'Toilet brush', category: 'Tools & Equipment', quantity: 1, checked: false },
+  { id: '30', name: 'Mop (spray, steam, or traditional)', category: 'Tools & Equipment', quantity: 1, checked: false },
+  { id: '31', name: 'Mop bucket', category: 'Tools & Equipment', quantity: 1, checked: false },
+  { id: '32', name: 'Broom and dustpan', category: 'Tools & Equipment', quantity: 1, checked: false },
+  { id: '33', name: 'Vacuum cleaner', category: 'Tools & Equipment', quantity: 1, checked: false },
+  { id: '34', name: 'Vacuum attachments', category: 'Tools & Equipment', quantity: 1, checked: false },
+  { id: '35', name: 'Vacuum bags or filters', category: 'Tools & Equipment', quantity: 1, checked: false },
+  { id: '36', name: 'Extendable duster / dusting wand', category: 'Tools & Equipment', quantity: 1, checked: false },
+  { id: '37', name: 'Duster or dusting mitt', category: 'Tools & Equipment', quantity: 1, checked: false },
+  { id: '38', name: 'Magic erasers', category: 'Tools & Equipment', quantity: 1, checked: false },
+  { id: '39', name: 'Squeegee', category: 'Tools & Equipment', quantity: 1, checked: false },
+  { id: '40', name: 'Pressure washer', category: 'Tools & Equipment', quantity: 1, checked: false },
+  { id: '41', name: 'Air duster (compressed air)', category: 'Tools & Equipment', quantity: 1, checked: false },
+  { id: '42', name: 'Lint roller', category: 'Tools & Equipment', quantity: 1, checked: false },
+  { id: '43', name: 'Cleaning gloves', category: 'Tools & Equipment', quantity: 1, checked: false },
+  { id: '44', name: 'Cleaning caddy or tote', category: 'Tools & Equipment', quantity: 1, checked: false },
+
+  // Storage & Organization
+  { id: '45', name: 'Storage bins or baskets', category: 'Storage & Organization', quantity: 1, checked: false },
+  { id: '46', name: 'Drawer organizers', category: 'Storage & Organization', quantity: 1, checked: false },
+  { id: '47', name: 'Under-bed storage bins', category: 'Storage & Organization', quantity: 1, checked: false },
+  { id: '48', name: 'Labels', category: 'Storage & Organization', quantity: 1, checked: false },
+  { id: '49', name: 'Spray bottles', category: 'Storage & Organization', quantity: 1, checked: false },
+  { id: '50', name: 'Cable organizers', category: 'Storage & Organization', quantity: 1, checked: false },
+  { id: '51', name: 'Desk organizers', category: 'Storage & Organization', quantity: 1, checked: false },
+  { id: '52', name: 'Shoe rack or tray', category: 'Storage & Organization', quantity: 1, checked: false },
+  { id: '53', name: 'Storage hooks or racks', category: 'Storage & Organization', quantity: 1, checked: false },
+  { id: '54', name: 'Storage bench or ottoman', category: 'Storage & Organization', quantity: 1, checked: false },
+  { id: '55', name: 'Storage area lighting', category: 'Storage & Organization', quantity: 1, checked: false },
+  { id: '56', name: 'Cleaning supply baskets by room', category: 'Storage & Organization', quantity: 1, checked: false },
+
+  // Room Specific - Living Room
+  { id: '57', name: 'Multi-surface cleaner', category: 'Living Room Essentials', quantity: 1, checked: false },
+  { id: '58', name: 'Glass cleaner', category: 'Living Room Essentials', quantity: 1, checked: false },
+  { id: '59', name: 'Microfiber cloths', category: 'Living Room Essentials', quantity: 1, checked: false },
+  { id: '60', name: 'Vacuum cleaner', category: 'Living Room Essentials', quantity: 1, checked: false },
+  { id: '61', name: 'Extendable duster', category: 'Living Room Essentials', quantity: 1, checked: false },
+
+  // Room Specific - Kitchen
+  { id: '62', name: 'Degreaser', category: 'Kitchen Essentials', quantity: 1, checked: false },
+  { id: '63', name: 'Disinfectant spray/wipes', category: 'Kitchen Essentials', quantity: 1, checked: false },
+  { id: '64', name: 'Sponges', category: 'Kitchen Essentials', quantity: 1, checked: false },
+  { id: '65', name: 'Broom and dustpan', category: 'Kitchen Essentials', quantity: 1, checked: false },
+  { id: '66', name: 'White vinegar', category: 'Kitchen Essentials', quantity: 1, checked: false },
+
+  // Room Specific - Bathroom
+  { id: '67', name: 'Toilet bowl cleaner', category: 'Bathroom Essentials', quantity: 1, checked: false },
+  { id: '68', name: 'Tub and tile cleaner', category: 'Bathroom Essentials', quantity: 1, checked: false },
+  { id: '69', name: 'Glass cleaner', category: 'Bathroom Essentials', quantity: 1, checked: false },
+  { id: '70', name: 'Scrub brushes', category: 'Bathroom Essentials', quantity: 1, checked: false },
+  { id: '71', name: 'Toilet brush', category: 'Bathroom Essentials', quantity: 1, checked: false },
+  { id: '72', name: 'Shower cleaner spray', category: 'Bathroom Essentials', quantity: 1, checked: false },
+
+  // Room Specific - Bedroom
+  { id: '73', name: 'Upholstery cleaner', category: 'Bedroom Essentials', quantity: 1, checked: false },
+  { id: '74', name: 'Fabric freshener spray', category: 'Bedroom Essentials', quantity: 1, checked: false },
+  { id: '75', name: 'Storage bins', category: 'Bedroom Essentials', quantity: 1, checked: false },
+  { id: '76', name: 'Mop or steam mop', category: 'Bedroom Essentials', quantity: 1, checked: false },
+
+  // Room Specific - Office
+  { id: '77', name: 'Dusting mitt', category: 'Office Essentials', quantity: 1, checked: false },
+  { id: '78', name: 'Scrub brush', category: 'Office Essentials', quantity: 1, checked: false },
+  { id: '79', name: 'Air duster', category: 'Office Essentials', quantity: 1, checked: false },
+  { id: '80', name: 'Cable organizer', category: 'Office Essentials', quantity: 1, checked: false },
+  { id: '81', name: 'Desk organizers', category: 'Office Essentials', quantity: 1, checked: false },
+
+  // Room Specific - Laundry
+  { id: '82', name: 'Laundry detergent', category: 'Laundry Essentials', quantity: 1, checked: false },
+  { id: '83', name: 'Stain remover', category: 'Laundry Essentials', quantity: 1, checked: false },
+  { id: '84', name: 'Laundry sanitizer', category: 'Laundry Essentials', quantity: 1, checked: false },
+  { id: '85', name: 'Laundry bags', category: 'Laundry Essentials', quantity: 1, checked: false },
+  { id: '86', name: 'Laundry booster', category: 'Laundry Essentials', quantity: 1, checked: false },
+  { id: '87', name: 'Drying rack or clothesline', category: 'Laundry Essentials', quantity: 1, checked: false },
+
+  // Room Specific - Entryway
+  { id: '88', name: 'Mop and bucket', category: 'Entryway Essentials', quantity: 1, checked: false },
+  { id: '89', name: 'Floor mat or rug', category: 'Entryway Essentials', quantity: 1, checked: false },
+  { id: '90', name: 'Dustpan', category: 'Entryway Essentials', quantity: 1, checked: false },
+  { id: '91', name: 'Shoe rack or tray', category: 'Entryway Essentials', quantity: 1, checked: false },
+  { id: '92', name: 'Entryway table or console', category: 'Entryway Essentials', quantity: 1, checked: false },
+
+  // Room Specific - Outdoors
+  { id: '93', name: 'Concrete cleaner', category: 'Outdoor Essentials', quantity: 1, checked: false },
+  { id: '94', name: 'Pressure washer', category: 'Outdoor Essentials', quantity: 1, checked: false },
+  { id: '95', name: 'Squeegee', category: 'Outdoor Essentials', quantity: 1, checked: false },
+  { id: '96', name: 'Outdoor trash bags', category: 'Outdoor Essentials', quantity: 1, checked: false },
+  { id: '97', name: 'Gutter cleaning tool', category: 'Outdoor Essentials', quantity: 1, checked: false },
+
+  // Disposable Items
+  { id: '98', name: 'Trash bags', category: 'Disposable Items', quantity: 1, checked: false },
+  { id: '99', name: 'Paper towels', category: 'Disposable Items', quantity: 1, checked: false },
+  { id: '100', name: 'Disinfecting wipes', category: 'Disposable Items', quantity: 1, checked: false },
+  { id: '101', name: 'Disposable gloves', category: 'Disposable Items', quantity: 1, checked: false },
+
+  // Optional / Specialty
+  { id: '102', name: 'Steam mop', category: 'Optional / Specialty', quantity: 1, checked: false },
+  { id: '103', name: 'Stainless steel cleaner', category: 'Optional / Specialty', quantity: 1, checked: false },
+  { id: '104', name: 'Wood conditioner', category: 'Optional / Specialty', quantity: 1, checked: false },
+  { id: '105', name: 'Natural cleaning supplies', category: 'Optional / Specialty', quantity: 1, checked: false },
+  { id: '106', name: 'DIY cleaner labels', category: 'Optional / Specialty', quantity: 1, checked: false },
+  { id: '107', name: 'Essential oil diffusers', category: 'Optional / Specialty', quantity: 1, checked: false }
 ];
 
 const defaultDeclutterDays: DeclutterDay[] = [
