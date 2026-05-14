@@ -22,6 +22,7 @@ export default function RoomPage() {
   const [rewardMessage, setRewardMessage] = useState('');
   const [rewardPoints, setRewardPoints] = useState(0);
   const [rewardCelebration, setRewardCelebration] = useState('');
+  const [confettiPosition, setConfettiPosition] = useState<{ x: number; y: number } | null>(null);
 
   const room = rooms.find((r) => r.id === roomId);
 
@@ -44,16 +45,32 @@ export default function RoomPage() {
   const progress = getProgress(room.id);
 
   const handleToggleTask = (taskId: string, currentStatus: boolean) => {
-    const previousProgress = progress;
+    if (!room) return;
+    
     updateTask(room.id, taskId, !currentStatus);
     
-    setTimeout(() => {
-      const newProgress = getProgress(room.id);
-      if (newProgress === 100 && previousProgress < 100) {
-        setShowReward(true);
-        setTimeout(() => setShowReward(false), 5000);
+    // Trigger confetti animation when completing a task
+    if (!currentStatus) {
+      // Get button position for confetti origin
+      const button = document.getElementById(`task-${taskId}`);
+      if (button) {
+        const rect = button.getBoundingClientRect();
+        setConfettiPosition({ 
+          x: rect.left + rect.width / 2, 
+          y: rect.top + rect.height / 2 
+        });
+        setTimeout(() => setConfettiPosition(null), 1000);
       }
-    }, 100);
+    }
+    
+    const updatedRoom = rooms.find(r => r.id === room.id);
+    if (updatedRoom) {
+      const newProgress = getProgress(updatedRoom.id);
+      if (newProgress === 100 && progress !== 100) {
+        setShowReward(true);
+        setTimeout(() => setShowReward(false), 4000);
+      }
+    }
   };
 
   const handleAddTask = () => {
@@ -107,6 +124,31 @@ export default function RoomPage() {
     <div className="min-h-screen bg-background p-4 md:p-8 pb-24 md:pb-8 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-radial from-primary/10 via-transparent to-transparent pointer-events-none" />
       
+      {/* Paw Print Confetti Animation */}
+      {confettiPosition && (
+        <div className="fixed inset-0 pointer-events-none z-50">
+          {[...Array(8)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute animate-float-up"
+              style={{
+                left: `${confettiPosition.x}px`,
+                top: `${confettiPosition.y}px`,
+                animationDelay: `${i * 0.05}s`,
+                '--float-x': `${(Math.random() - 0.5) * 150}px`,
+                '--float-rotation': `${Math.random() * 360}deg`,
+              } as React.CSSProperties}
+            >
+              <PawPrint 
+                className={`w-6 h-6 ${
+                  i % 3 === 0 ? 'text-accent' : i % 3 === 1 ? 'text-primary' : 'text-secondary'
+                }`}
+              />
+            </div>
+          ))}
+        </div>
+      )}
+
       {showReward && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 animate-in fade-in backdrop-blur-sm p-4">
           <div className="text-center relative max-w-lg w-full px-4 md:px-6">
@@ -289,6 +331,7 @@ export default function RoomPage() {
               ) : (
                 <div className="flex items-start gap-3">
                   <button
+                    id={`task-${task.id}`}
                     onClick={() => handleToggleTask(task.id, task.completed)}
                     className={`
                       mt-1 w-8 h-8 rounded-full border-2 flex items-center justify-center

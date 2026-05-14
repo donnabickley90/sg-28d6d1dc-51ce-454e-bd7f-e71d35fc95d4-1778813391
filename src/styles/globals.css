@@ -71,3 +71,31 @@
     background-image: radial-gradient(circle, var(--tw-gradient-stops));
   }
 }
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px var(--primary);
+  }
+  50% {
+    box-shadow: 0 0 40px var(--primary), 0 0 60px var(--primary);
+  }
+}
+
+@keyframes float-up {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--float-x, 0), -120px) rotate(var(--float-rotation, 180deg)) scale(0.3);
+  }
+}
+
+.animate-float-up {
+  animation: float-up 1s ease-out forwards;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
