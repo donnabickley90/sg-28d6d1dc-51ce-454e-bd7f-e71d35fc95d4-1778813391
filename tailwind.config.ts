@@ -10,6 +10,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        display: ['Archivo Black', 'system-ui', 'sans-serif'],
+        mono: ['Space Mono', 'Courier New', 'monospace'],
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
@@ -84,10 +88,15 @@ const config: Config = {
             height: "0",
           },
         },
+        'glow-pulse': {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.7' }
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        'glow-pulse': 'glow-pulse 2s ease-in-out infinite'
       },
     },
   },
