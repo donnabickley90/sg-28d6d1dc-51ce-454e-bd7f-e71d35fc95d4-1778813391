@@ -8,27 +8,27 @@ import { Input } from '@/components/ui/input';
 import Image from 'next/image';
 
 const KITTEN_QUOTES = [
-  "Good kittens keep their collars clean... and the floors cleaner. Make Daddy proud. 🐾",
-  "A messy room means no treats. Show me how obedient my little pet can be. 🖤",
-  "Scrub until you earn that 'good girl'. Daddy's watching. 👀",
-  "The collar stays on, but the dust must go. Get on your knees and clean. 🧹",
-  "Daddy loves a spotless house. Don't make him punish his favorite kitten. 😼",
-  "Beg for his praise by making these floors shine. Good pets do their chores. ✨",
-  "Earning your headpats requires a clean kitchen. Hop to it, kitten. 😻",
-  "Submission isn't just in the bedroom; it's doing the dishes without being asked. 🍽️",
-  "A good pet anticipates Daddy's needs. And Daddy needs a clean house. 🏠",
-  "Show him you belong to him by taking care of his territory. 🖤",
-  "Purr for his approval. Work for his praise. Clean for his satisfaction. 🐾",
-  "Those knees aren't just for begging—use them to scrub the floor, little kitten. 🧽",
-  "Daddy's good girl keeps her toys put away when she's done playing. 🧸",
-  "Want him to scratch behind your ears? Show him a spotless bathroom first. 🛁",
-  "Your obedience is beautiful, but a clean house is even better. Get to work. 🧹",
-  "Show Daddy what a good, diligent pet you are. Make it sparkle. ✨",
-  "A clean collar and a clean house—the hallmarks of a perfect kitten. 🎀",
-  "Kneel and scrub, little one. Daddy's rewards are worth the effort. 🖤",
-  "The best kittens do their chores with a purr and a smile. 😺",
-  "Make Daddy proud of his little pet. Conquer this chaos! 🧹"
-];
+"Good kittens keep their collars clean... and the floors cleaner. Make Daddy proud. 🐾",
+"A messy room means no treats. Show me how obedient my little pet can be. 🖤",
+"Scrub until you earn that 'good girl'. Daddy's watching. 👀",
+"The collar stays on, but the dust must go. Get on your knees and clean. 🧹",
+"Daddy loves a spotless house. Don't make him punish his favorite kitten. 😼",
+"Beg for his praise by making these floors shine. Good pets do their chores. ✨",
+"Earning your headpats requires a clean kitchen. Hop to it, kitten. 😻",
+"Submission isn't just in the bedroom; it's doing the dishes without being asked. 🍽️",
+"A good pet anticipates Daddy's needs. And Daddy needs a clean house. 🏠",
+"Show him you belong to him by taking care of his territory. 🖤",
+"Purr for his approval. Work for his praise. Clean for his satisfaction. 🐾",
+"Those knees aren't just for begging—use them to scrub the floor, little kitten. 🧽",
+"Daddy's good girl keeps her toys put away when she's done playing. 🧸",
+"Want him to scratch behind your ears? Show him a spotless bathroom first. 🛁",
+"Your obedience is beautiful, but a clean house is even better. Get to work. 🧹",
+"Show Daddy what a good, diligent pet you are. Make it sparkle. ✨",
+"A clean collar and a clean house—the hallmarks of a perfect kitten. 🎀",
+"Kneel and scrub, little one. Daddy's rewards are worth the effort. 🖤",
+"The best kittens do their chores with a purr and a smile. 😺",
+"Make Daddy proud of his little pet. Conquer this chaos! 🧹"];
+
 
 export default function Home() {
   const { rooms, getProgress, updateRoomName } = useCleaning();
@@ -70,13 +70,13 @@ export default function Home() {
 
   const totalTasks = rooms.reduce((acc, room) => acc + room.tasks.length, 0);
   const completedTasks = rooms.reduce(
-    (acc, room) => acc + room.tasks.filter(t => t.completed).length,
+    (acc, room) => acc + room.tasks.filter((t) => t.completed).length,
     0
   );
 
-  const earnedRewards = rooms.filter(room => getProgress(room.id) === 100);
+  const earnedRewards = rooms.filter((room) => getProgress(room.id) === 100);
   const totalPoints = earnedRewards.reduce((acc, room) => acc + room.reward.points, 0);
-  const overallProgress = totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
+  const overallProgress = totalTasks === 0 ? 0 : Math.round(completedTasks / totalTasks * 100);
 
   return (
     <div className="min-h-screen bg-background pb-24 md:pb-8 md:pt-20 relative overflow-hidden">
@@ -93,8 +93,8 @@ export default function Home() {
                 alt="Chaos Kitten Avatar"
                 fill
                 className="object-cover rounded-full"
-                priority
-              />
+                priority />
+              
             </div>
           </div>
           
@@ -131,24 +131,24 @@ export default function Home() {
             <div className="h-6 md:h-8 bg-muted rounded-lg border-2 border-primary overflow-hidden shadow-lg shadow-primary/30">
               <div
                 className="h-full bg-gradient-to-r from-primary via-secondary to-accent transition-all duration-500"
-                style={{ width: `${overallProgress}%` }}
-              />
+                style={{ width: `${overallProgress}%` }} />
+              
             </div>
-            {overallProgress === 100 && (
-              <div className="mt-3 md:mt-4 flex items-center justify-center gap-2 text-accent text-base md:text-xl">
+            {overallProgress === 100 &&
+            <div className="mt-3 md:mt-4 flex items-center justify-center gap-2 text-accent text-base md:text-xl">
                 <Award className="w-5 h-5 md:w-6 md:h-6" />
                 <span className="font-bold">CHAOS GOBLIN MASTER!</span>
                 <Award className="w-5 h-5 md:w-6 md:h-6" />
               </div>
-            )}
+            }
           </div>
         </header>
 
         {/* Kitten Motivation Quote Generator */}
         <div className="max-w-3xl mx-auto mb-8 md:mb-12 px-2">
           <div className="relative bg-card border-2 border-primary rounded-lg p-6 md:p-8 shadow-lg shadow-primary/20">
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent text-black px-4 py-1 rounded-full text-xs md:text-sm font-bold border-2 border-background">
-              🐱 CHAOS KITTEN WISDOM 🐱
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent text-black px-4 py-1 rounded-full text-xs md:text-sm font-bold border-2 border-background">🐱 KITTEN WISDOM 🐱
+
             </div>
             
             <p className="text-base sm:text-lg md:text-xl text-center text-foreground font-bold leading-relaxed mb-6 mt-2 min-h-[4rem] flex items-center justify-center">
@@ -158,8 +158,8 @@ export default function Home() {
             <div className="flex justify-center">
               <Button
                 onClick={generateNewQuote}
-                className="bg-secondary hover:bg-secondary/80 text-black font-bold group"
-              >
+                className="bg-secondary hover:bg-secondary/80 text-black font-bold group">
+                
                 <RefreshCw className="w-4 h-4 mr-2 group-hover:rotate-180 transition-transform duration-500" />
                 New Wisdom
               </Button>
@@ -180,97 +180,97 @@ export default function Home() {
                   className={`
                     block relative bg-card rounded-lg p-4 md:p-6 border-2 transition-all duration-300
                     active:scale-95 md:hover:scale-105 cursor-pointer
-                    ${isComplete 
-                      ? 'border-neon-lime' 
-                      : 'border-neon-cyan hover:border-neon-pink'
-                    }
-                  `}
+                    ${isComplete ?
+                  'border-neon-lime' :
+                  'border-neon-cyan hover:border-neon-pink'}
+                  `
+                  }
                   onClick={(e) => {
                     if (isEditing) {
                       e.preventDefault();
                     }
-                  }}
-                >
-                  {isComplete && (
-                    <div className="absolute -top-2 -right-2 md:-top-3 md:-right-3 bg-accent text-black rounded-full p-1.5 md:p-2 animate-bounce">
+                  }}>
+                  
+                  {isComplete &&
+                  <div className="absolute -top-2 -right-2 md:-top-3 md:-right-3 bg-accent text-black rounded-full p-1.5 md:p-2 animate-bounce">
                       <Award className="w-5 h-5 md:w-6 md:h-6" />
                     </div>
-                  )}
+                  }
 
                   <div className="flex items-start justify-between mb-3 md:mb-4">
                     <div className="flex-1 min-w-0">
                       <div className="text-3xl md:text-4xl mb-2">{room.emoji}</div>
-                      {isEditing ? (
-                        <div className="flex items-center gap-2" onClick={(e) => e.preventDefault()}>
+                      {isEditing ?
+                      <div className="flex items-center gap-2" onClick={(e) => e.preventDefault()}>
                           <Input
-                            value={editingName}
-                            onChange={(e) => setEditingName(e.target.value)}
-                            onKeyDown={(e) => {
-                              if (e.key === 'Enter') handleSaveEdit();
-                              if (e.key === 'Escape') handleCancelEdit();
-                            }}
-                            className="bg-background border-secondary text-sm md:text-base"
-                            autoFocus
-                          />
+                          value={editingName}
+                          onChange={(e) => setEditingName(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') handleSaveEdit();
+                            if (e.key === 'Escape') handleCancelEdit();
+                          }}
+                          className="bg-background border-secondary text-sm md:text-base"
+                          autoFocus />
+                        
                           <Button
-                            size="sm"
-                            onClick={handleSaveEdit}
-                            className="bg-accent text-black hover:bg-accent/80 flex-shrink-0"
-                          >
+                          size="sm"
+                          onClick={handleSaveEdit}
+                          className="bg-accent text-black hover:bg-accent/80 flex-shrink-0">
+                          
                             <Check className="w-4 h-4" />
                           </Button>
                           <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={handleCancelEdit}
-                            className="border-destructive text-destructive flex-shrink-0"
-                          >
+                          size="sm"
+                          variant="outline"
+                          onClick={handleCancelEdit}
+                          className="border-destructive text-destructive flex-shrink-0">
+                          
                             <X className="w-4 h-4" />
                           </Button>
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-2">
+                        </div> :
+
+                      <div className="flex items-center gap-2">
                           <h2 className="text-lg md:text-2xl font-display text-foreground truncate">
                             {room.name}
                           </h2>
                           <button
-                            onClick={(e) => {
-                              e.preventDefault();
-                              handleStartEdit(room.id, room.name);
-                            }}
-                            className="opacity-0 md:group-hover:opacity-100 transition-opacity p-1 hover:bg-secondary/20 rounded flex-shrink-0"
-                          >
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleStartEdit(room.id, room.name);
+                          }}
+                          className="opacity-0 md:group-hover:opacity-100 transition-opacity p-1 hover:bg-secondary/20 rounded flex-shrink-0">
+                          
                             <Edit2 className="w-4 h-4 text-secondary" />
                           </button>
                         </div>
-                      )}
+                      }
                     </div>
                     <div className="text-right flex-shrink-0 ml-2">
                       <div className={`text-2xl md:text-3xl font-bold ${
-                        isComplete ? 'text-neon-lime' : 'text-neon-cyan'
-                      }`}>
+                      isComplete ? 'text-neon-lime' : 'text-neon-cyan'}`
+                      }>
                         {progress}%
                       </div>
                       <div className="text-xs md:text-sm text-muted-foreground">
-                        {room.tasks.filter(t => t.completed).length}/{room.tasks.length}
+                        {room.tasks.filter((t) => t.completed).length}/{room.tasks.length}
                       </div>
-                      {isComplete && (
-                        <div className="text-xs text-accent font-bold mt-1">
+                      {isComplete &&
+                      <div className="text-xs text-accent font-bold mt-1">
                           +{room.reward.points}pts
                         </div>
-                      )}
+                      }
                     </div>
                   </div>
 
                   <div className="h-2.5 md:h-3 bg-muted rounded-full border border-border overflow-hidden">
                     <div
                       className={`h-full transition-all duration-500 ${
-                        isComplete 
-                          ? 'bg-accent' 
-                          : 'bg-gradient-to-r from-secondary to-primary'
-                      }`}
-                      style={{ width: `${progress}%` }}
-                    />
+                      isComplete ?
+                      'bg-accent' :
+                      'bg-gradient-to-r from-secondary to-primary'}`
+                      }
+                      style={{ width: `${progress}%` }} />
+                    
                   </div>
 
                   <div className="mt-3 md:mt-4 text-center">
@@ -279,11 +279,11 @@ export default function Home() {
                     </span>
                   </div>
                 </Link>
-              </div>
-            );
+              </div>);
+
           })}
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 }
