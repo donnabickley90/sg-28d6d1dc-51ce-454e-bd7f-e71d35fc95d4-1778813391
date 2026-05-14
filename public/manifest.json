@@ -1,0 +1,42 @@
+{
+  "name": "Kittens Cleaning Chaos",
+  "short_name": "Cleaning Chaos",
+  "description": "Your Chaos Goblin Spring Cleaning Quest - cute. feral. claimed.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0F0F0F",
+  "theme_color": "#00E5FF",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/app-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/app-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["lifestyle", "productivity", "utilities"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Random Room",
+      "short_name": "Random",
+      "description": "Pick a random room to clean",
+      "url": "/?action=random",
+      "icons": [{ "src": "/app-icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Supplies",
+      "short_name": "Supplies",
+      "description": "Check cleaning supplies",
+      "url": "/supplies",
+      "icons": [{ "src": "/app-icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

@@ -71,6 +71,12 @@ export default function Home() {
   useEffect(() => {
     setIsClient(true);
     setCurrentQuote(KITTEN_QUOTES[Math.floor(Math.random() * KITTEN_QUOTES.length)]);
+    
+    // Handle PWA shortcut actions
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('action') === 'random') {
+      pickRandomRoom();
+    }
   }, []);
 
   const handleStartEdit = (roomId: string, currentName: string) => {
