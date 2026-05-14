@@ -126,7 +126,7 @@ export default function RoomPage() {
             </p>
             <div className="mt-6 relative z-10">
               <Image
-                src="/chaos-kitten.png"
+                src="/kitten-avatar.png"
                 alt="Chaos Kitten"
                 width={80}
                 height={80}

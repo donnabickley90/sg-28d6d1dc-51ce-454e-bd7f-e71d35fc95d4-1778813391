@@ -45,7 +45,7 @@ export default function Home() {
           <div className="flex justify-center mb-6">
             <div className="relative w-32 h-32 rounded-full border-4 border-primary shadow-lg shadow-primary/50 animate-glow-pulse">
               <Image
-                src="/chaos-kitten.png"
+                src="/kitten-avatar.png"
                 alt="Chaos Kitten Avatar"
                 fill
                 className="object-cover rounded-full"
