@@ -1,6 +1,6 @@
 // Service Worker for Kittens Cleaning Chaos PWA
-const CACHE_VERSION = 'v1';
-const CACHE_NAME = `kittens-cleaning-${CACHE_VERSION}`;
+const CACHE_VERSION = 'v2';
+const CACHE_NAME = `kittens-cleaning-chaos-${CACHE_VERSION}`;
 
 // Assets to cache immediately on install
 const STATIC_ASSETS = [
