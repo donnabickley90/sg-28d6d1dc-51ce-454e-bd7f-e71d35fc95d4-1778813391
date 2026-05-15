@@ -10,28 +10,24 @@ export default function SuppliesPage() {
   const { supplies, addSupply, updateSupply, deleteSupply } = useCleaning();
   const [newName, setNewName] = useState('');
   const [newQuantity, setNewQuantity] = useState('');
-  const [newCategory, setNewCategory] = useState('cleaners');
+  const [newCategory, setNewCategory] = useState('General Surface Cleaners');
 
   const handleAddSupply = () => {
     if (newName.trim()) {
       addSupply(newName.trim(), newQuantity.trim() || '1', newCategory);
       setNewName('');
       setNewQuantity('');
-      setNewCategory('cleaners');
     }
   };
 
-  const categories = {
-    cleaners: supplies.filter(s => s.category === 'cleaners'),
-    tools: supplies.filter(s => s.category === 'tools'),
-    supplies: supplies.filter(s => s.category === 'supplies'),
-  };
-
-  const categoryNames = {
-    cleaners: '🧴 Cleaning Products',
-    tools: '🧹 Tools & Equipment',
-    supplies: '🗑️ Supplies & Consumables',
-  };
+  // Get unique categories from supplies
+  const uniqueCategories = Array.from(new Set(supplies.map(s => s.category)));
+  
+  // Group supplies by category
+  const categories = uniqueCategories.reduce((acc, category) => {
+    acc[category] = supplies.filter(s => s.category === category);
+    return acc;
+  }, {} as Record<string, typeof supplies>);
 
   const checkedCount = supplies.filter(s => s.checked).length;
   const totalCount = supplies.length;
@@ -72,7 +68,7 @@ export default function SuppliesPage() {
           {Object.entries(categories).map(([category, items]) => (
             <div key={category} className="bg-card border-2 border-primary rounded-lg p-6">
               <h2 className="text-2xl font-display text-neon-cyan mb-4">
-                {categoryNames[category as keyof typeof categoryNames]}
+                {category}
               </h2>
               <div className="space-y-2">
                 {items.map((item) => (
@@ -151,9 +147,9 @@ export default function SuppliesPage() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="cleaners">Cleaning Products</SelectItem>
-                  <SelectItem value="tools">Tools & Equipment</SelectItem>
-                  <SelectItem value="supplies">Supplies</SelectItem>
+                  {uniqueCategories.map(cat => (
+                    <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
