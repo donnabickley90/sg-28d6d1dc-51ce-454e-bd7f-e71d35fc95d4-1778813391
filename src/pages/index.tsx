@@ -71,7 +71,7 @@ export default function Home() {
   useEffect(() => {
     setIsClient(true);
     setCurrentQuote(KITTEN_QUOTES[Math.floor(Math.random() * KITTEN_QUOTES.length)]);
-    
+
     // Handle PWA shortcut actions
     const params = new URLSearchParams(window.location.search);
     if (params.get('action') === 'random') {
@@ -107,9 +107,9 @@ export default function Home() {
 
   const pickRandomRoom = () => {
     // Filter to incomplete rooms first, fallback to all rooms
-    const incompleteRooms = rooms.filter(room => getProgress(room.id) < 100);
+    const incompleteRooms = rooms.filter((room) => getProgress(room.id) < 100);
     const roomsToPickFrom = incompleteRooms.length > 0 ? incompleteRooms : rooms;
-    
+
     if (roomsToPickFrom.length > 0) {
       const randomRoom = roomsToPickFrom[Math.floor(Math.random() * roomsToPickFrom.length)];
       window.location.href = `/room/${randomRoom.id}`;
@@ -173,7 +173,7 @@ export default function Home() {
 
           <div className="max-w-2xl mx-auto px-2">
             <div className="flex justify-between items-center mb-2">
-              <span className="text-sm md:text-lg font-bold text-foreground">Overall Progress</span>
+              <span className="text-sm md:text-lg font-bold text-foreground">Looky Who Didnt Procrastinate %</span>
               <span className="text-xl md:text-2xl font-bold text-neon-lime">{overallProgress}%</span>
             </div>
             <div className="h-6 md:h-8 bg-muted rounded-lg border-2 border-primary overflow-hidden shadow-lg shadow-primary/30">
@@ -206,8 +206,8 @@ export default function Home() {
             <div className="flex justify-center">
               <Button
                 onClick={generateNewQuote}
-                className="bg-secondary hover:bg-secondary/80 text-black font-bold group"
-              >
+                className="bg-secondary hover:bg-secondary/80 text-black font-bold group">
+                
                 <RefreshCw className="w-4 h-4 mr-2 group-hover:rotate-180 transition-transform duration-500" />
                 New Wisdom
               </Button>
@@ -219,8 +219,8 @@ export default function Home() {
         <div className="max-w-md mx-auto mb-8 md:mb-12 px-2">
           <Button
             onClick={pickRandomRoom}
-            className="w-full bg-primary hover:bg-primary/80 text-black font-bold text-base md:text-lg py-6 group border-2 border-accent shadow-lg shadow-accent/30"
-          >
+            className="w-full bg-primary hover:bg-primary/80 text-black font-bold text-base md:text-lg py-6 group border-2 border-accent shadow-lg shadow-accent/30">
+            
             <Sparkles className="w-5 h-5 mr-2 group-hover:scale-125 transition-transform" />
             Pick a Room for Me
             <Sparkles className="w-5 h-5 ml-2 group-hover:scale-125 transition-transform" />
