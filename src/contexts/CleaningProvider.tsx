@@ -706,7 +706,16 @@ export function CleaningProvider({ children }: { children: ReactNode }) {
 
     const storedSupplies = localStorage.getItem(SUPPLIES_KEY);
     if (storedSupplies) {
-      setSupplies(JSON.parse(storedSupplies));
+      const parsed = JSON.parse(storedSupplies);
+      
+      // Merge existing supplies with new default supplies
+      // Add any new supplies that don't exist in stored data
+      const existingIds = new Set(parsed.map((s: Supply) => s.id));
+      const newSupplies = defaultSupplies.filter(s => !existingIds.has(s.id));
+      
+      const mergedSupplies = [...parsed, ...newSupplies];
+      setSupplies(mergedSupplies);
+      localStorage.setItem(SUPPLIES_KEY, JSON.stringify(mergedSupplies));
     } else {
       setSupplies(defaultSupplies);
       localStorage.setItem(SUPPLIES_KEY, JSON.stringify(defaultSupplies));
